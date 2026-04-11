@@ -63,7 +63,7 @@ importers:
         specifier: ^8.0.5
         version: 8.1.1(vite@7.3.2)(vue@3.5.32)
 
-  doc:
+  doc/ursadoc:
     dependencies:
       '@element-plus/icons-vue':
         specifier: ^2.3.2
@@ -73,7 +73,7 @@ importers:
         version: 2.13.7(vue@3.5.32)
       ursacomponents:
         specifier: workspace:*
-        version: link:../packages/ursacomponents
+        version: link:../../packages/ursacomponents
       vue:
         specifier: ^3.5.27
         version: 3.5.32

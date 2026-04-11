@@ -1,0 +1,97 @@
+{
+  "hash": "80141275",
+  "configHash": "20b48f84",
+  "lockfileHash": "96654d5c",
+  "browserHash": "69515159",
+  "optimized": {
+    "vue": {
+      "src": "../../../../../node_modules/.pnpm/vue@3.5.32/node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "191a377e",
+      "needsInterop": false
+    },
+    "vitepress > @vue/devtools-api": {
+      "src": "../../../../../node_modules/.pnpm/@vue+devtools-api@7.7.9/node_modules/@vue/devtools-api/dist/index.js",
+      "file": "vitepress___@vue_devtools-api.js",
+      "fileHash": "bef01885",
+      "needsInterop": false
+    },
+    "vitepress > @vueuse/core": {
+      "src": "../../../../../node_modules/.pnpm/@vueuse+core@12.8.2/node_modules/@vueuse/core/index.mjs",
+      "file": "vitepress___@vueuse_core.js",
+      "fileHash": "eae01822",
+      "needsInterop": false
+    },
+    "element-plus": {
+      "src": "../../../../../node_modules/.pnpm/element-plus@2.13.7_vue@3.5.32/node_modules/element-plus/es/index.mjs",
+      "file": "element-plus.js",
+      "fileHash": "b71b002a",
+      "needsInterop": false
+    },
+    "highlight.js/lib/core": {
+      "src": "../../../../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/es/core.js",
+      "file": "highlight__js_lib_core.js",
+      "fileHash": "c4a49c71",
+      "needsInterop": false
+    },
+    "highlight.js/lib/languages/bash": {
+      "src": "../../../../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/es/languages/bash.js",
+      "file": "highlight__js_lib_languages_bash.js",
+      "fileHash": "3c54de6e",
+      "needsInterop": false
+    },
+    "highlight.js/lib/languages/css": {
+      "src": "../../../../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/es/languages/css.js",
+      "file": "highlight__js_lib_languages_css.js",
+      "fileHash": "b9e46790",
+      "needsInterop": false
+    },
+    "highlight.js/lib/languages/javascript": {
+      "src": "../../../../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/es/languages/javascript.js",
+      "file": "highlight__js_lib_languages_javascript.js",
+      "fileHash": "29d2be58",
+      "needsInterop": false
+    },
+    "highlight.js/lib/languages/json": {
+      "src": "../../../../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/es/languages/json.js",
+      "file": "highlight__js_lib_languages_json.js",
+      "fileHash": "1a2b4f43",
+      "needsInterop": false
+    },
+    "highlight.js/lib/languages/typescript": {
+      "src": "../../../../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/es/languages/typescript.js",
+      "file": "highlight__js_lib_languages_typescript.js",
+      "fileHash": "e405fe36",
+      "needsInterop": false
+    },
+    "highlight.js/lib/languages/xml": {
+      "src": "../../../../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/es/languages/xml.js",
+      "file": "highlight__js_lib_languages_xml.js",
+      "fileHash": "29ef550e",
+      "needsInterop": false
+    },
+    "@element-plus/icons-vue": {
+      "src": "../../../../../node_modules/.pnpm/@element-plus+icons-vue@2.3.2_vue@3.5.32/node_modules/@element-plus/icons-vue/dist/index.js",
+      "file": "@element-plus_icons-vue.js",
+      "fileHash": "24ef732c",
+      "needsInterop": false
+    },
+    "vue-router": {
+      "src": "../../../../../node_modules/.pnpm/vue-router@4.6.4_vue@3.5.32/node_modules/vue-router/dist/vue-router.mjs",
+      "file": "vue-router.js",
+      "fileHash": "626b5d83",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-UTV7B32X": {
+      "file": "chunk-UTV7B32X.js"
+    },
+    "chunk-4E336VJQ": {
+      "file": "chunk-4E336VJQ.js"
+    },
+    "chunk-5WRI5ZAA": {
+      "file": "chunk-5WRI5ZAA.js"
+    }
+  }
+}

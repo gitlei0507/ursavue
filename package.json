@@ -5,6 +5,7 @@
   "scripts": {
     "docs:dev": "pnpm --filter ursadoc dev",
     "docs:build": "pnpm --filter ursadoc build",
-    "docs:preview": "pnpm --filter ursadoc preview"
+    "docs:preview": "pnpm --filter ursadoc preview",
+    "dev": "pnpm --filter vue-admin dev"
   }
 }

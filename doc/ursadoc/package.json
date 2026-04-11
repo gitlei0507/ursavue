@@ -1,0 +1,22 @@
+{
+    "name": "ursadoc",
+    "private": true,
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vitepress dev .",
+        "build": "vitepress build .",
+        "preview": "vitepress preview ."
+    },
+    "dependencies": {
+        "@element-plus/icons-vue": "^2.3.2",
+        "element-plus": "^2.13.2",
+        "ursacomponents": "workspace:*",
+        "vue": "^3.5.27",
+        "vue-router": "^4.6.4"
+    },
+    "devDependencies": {
+        "highlight.js": "^11.11.1",
+        "vitepress": "^1.6.4"
+    }
+}
