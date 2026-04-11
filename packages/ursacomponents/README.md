@@ -31,11 +31,11 @@ import { UrsaSearch, UrsaTable, useUrsaSearch } from "ursacomponents";
 
 ```bash
 # 本地启动文档
-npm run docs:dev
+pnpm docs:dev
 
 # 构建文档
-npm run docs:build
+pnpm docs:build
 
 # 预览构建产物
-npm run docs:preview
+pnpm docs:preview
 ```

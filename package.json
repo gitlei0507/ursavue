@@ -1,5 +1,10 @@
 {
   "name": "ursavue",
   "private": true,
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "scripts": {
+    "docs:dev": "pnpm --filter ursadoc dev",
+    "docs:build": "pnpm --filter ursadoc build",
+    "docs:preview": "pnpm --filter ursadoc preview"
+  }
 }
