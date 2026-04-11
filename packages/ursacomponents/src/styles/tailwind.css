@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ursa-message-box-with-check {
+  position: relative;
+}
+
+.ursa-message-box-with-check .ursa-message-box-check {
+  position: absolute;
+  left: 24px;
+  bottom: 14px;
+  z-index: 1;
+}
+
+.ursa-message-box-with-check .ursa-message-box-check-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #606266;
+  cursor: pointer;
+}
