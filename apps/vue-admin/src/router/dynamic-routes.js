@@ -1,5 +1,5 @@
 // 根据菜单数据动态生成并注册路由
-import { createUrsaMenuRouterToolkit, getUrsaMenuIcon } from 'ursacomponents';
+import { createUrsaMenuRouterToolkit, getUrsaMenuIcon } from '@/router/modules';
 
 // 扫描 views 下所有页面组件，按路径匹配菜单配置
 // 示例：key：组件路径，value：懒加载函数

@@ -1,4 +1,4 @@
-﻿// 统一菜单配置中的视图路径格式，便于和视图模块 key 精确匹配。
+// 统一菜单配置中的视图路径格式，便于和视图模块 key 精确匹配。
 export const normalizeViewPath = (viewPath = '') => {
     // 兼容非字符串输入，并去掉开头多余的斜杠（如 '/system/user' -> 'system/user'）。
     const trimmed = String(viewPath).replace(/^\/+/, '')

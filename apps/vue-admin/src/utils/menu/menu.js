@@ -5,7 +5,7 @@
 import {
     buildMenuTree as buildUrsaMenuTree,
     getFirstMenuPath as getUrsaFirstMenuPath
-} from 'ursacomponents'
+} from '@/router/modules'
 
 /**
  * 将扁平菜单列表转换为树形结构

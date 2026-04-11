@@ -1,4 +1,4 @@
-import { normalizeViewPath } from './path';
+import { normalizeViewPath } from './path'
 
 // 创建菜单到路由的映射器：将单个菜单节点转换为 Vue Router 路由记录。
 export const createMenuRouteMapper = ({ resolveComponent, debug = false } = {}) => {
@@ -14,7 +14,7 @@ export const createMenuRouteMapper = ({ resolveComponent, debug = false } = {}) 
 
         if (!component) {
             if (debug) {
-                console.warn(`[ursa-router] 未找到组件: ${menu.component}`)
+                console.warn(`[admin-router] 未找到组件: ${menu.component}`)
             }
             return null
         }

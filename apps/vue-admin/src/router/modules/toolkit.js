@@ -8,7 +8,7 @@ export const createUrsaMenuRouterToolkit = (options = {}) => {
     // 支持外部注入实现，未传入时使用默认能力。
     const {
         viewModules = {},
-        flattenMenus: customFlattenMenus = flattenMenus,    // 无自定义拍平函数，使用默认
+        flattenMenus: customFlattenMenus = flattenMenus,
         viewsDir = '/src/views',
         debug = false
     } = options
@@ -40,10 +40,9 @@ export const createUrsaMenuRouterToolkit = (options = {}) => {
         }
 
         const routes = buildRoutesFromMenus(menus)
-        console.log('##', routes);
 
         if (debug) {
-            console.log('routes', routes)
+            console.log('[admin-router] routes:', routes)
         }
 
         routes.forEach((route) => {

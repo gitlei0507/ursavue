@@ -1,5 +1,10 @@
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { computed, unref } from 'vue'
-import { getUrsaMenuIcon } from '../../router'
+
+const getUrsaMenuIcon = (iconName, options = {}) => {
+    const { iconMap = ElementPlusIconsVue, fallbackIcon = 'Menu' } = options
+    return iconMap?.[iconName] || iconMap?.[fallbackIcon] || ElementPlusIconsVue.Menu
+}
 
 // 统一菜单项的标题、图标、层级判断逻辑。
 export const useUrsaMenuItem = (menuRef, options = {}) => {

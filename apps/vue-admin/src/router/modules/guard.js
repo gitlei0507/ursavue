@@ -1,4 +1,4 @@
-﻿// 默认从用户信息中读取菜单列表。
+// 默认从用户信息中读取菜单列表。
 const defaultGetMenus = (store) => store?.userInfo?.menus || []
 // 默认从 store 中读取“是否已加载过动态路由”标记。
 const defaultHasLoadedRoutes = (store) => Boolean(store?.hasLoadedAsyncRoutes)
@@ -9,7 +9,7 @@ const defaultSetLoadedRoutes = (store, loaded) => {
     }
 }
 
-// 注册 Ursa 路由前置守卫：处理登录校验、动态路由注入与缺失菜单兜底。
+// 注册前置守卫：处理登录校验、动态路由注入与缺失菜单兜底。
 export const setupUrsaRouterGuard = (router, options = {}) => {
     const {
         getToken = () => null,
@@ -28,17 +28,17 @@ export const setupUrsaRouterGuard = (router, options = {}) => {
 
     // 基础参数校验：必须传入可用 router 实例。
     if (!router || typeof router.beforeEach !== 'function') {
-        throw new Error('[ursa-router] setupUrsaRouterGuard 需要有效的 router 实例')
+        throw new Error('[admin-router] setupUrsaRouterGuard 需要有效的 router 实例')
     }
 
     // 必须提供动态路由初始化方法。
     if (typeof initDynamicRoutes !== 'function') {
-        throw new Error('[ursa-router] setupUrsaRouterGuard 需要 initDynamicRoutes 方法')
+        throw new Error('[admin-router] setupUrsaRouterGuard 需要 initDynamicRoutes 方法')
     }
 
     return router.beforeEach((to, from, next) => {
         if (debug) {
-            console.log('[ursa-router] 导航到:', to.path, '路由名称:', to.name)
+            console.log('[admin-router] 导航到:', to.path, '路由名称:', to.name)
         }
 
         // 登录页放行，避免登录页被二次拦截。
@@ -62,7 +62,7 @@ export const setupUrsaRouterGuard = (router, options = {}) => {
             : !hasLoadedRoutes(userStore) || to.matched.length === 0 || (to.name ? !router.hasRoute(to.name) : false)
 
         if (debug) {
-            console.log('[ursa-router] needLoadRoutes:', needLoadRoutes)
+            console.log('[admin-router] needLoadRoutes:', needLoadRoutes)
         }
 
         if (!needLoadRoutes) {
@@ -83,7 +83,7 @@ export const setupUrsaRouterGuard = (router, options = {}) => {
         }
 
         if (debug) {
-            console.warn('[ursa-router] 没有菜单数据，跳转登录页')
+            console.warn('[admin-router] 没有菜单数据，跳转登录页')
         }
 
         // 菜单缺失时允许外部提供兜底跳转策略。

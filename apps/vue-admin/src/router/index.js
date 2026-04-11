@@ -1,7 +1,7 @@
 import { initDynamicRoutes } from '@/router/dynamic-routes'
+import { setupUrsaRouterGuard } from '@/router/modules'
 import { useUserStore } from '@/stores/user'
 import { useAuth } from '@/utils/auth'
-import { setupUrsaRouterGuard } from 'ursacomponents'
 import { createRouter, createWebHistory } from 'vue-router'
 
 import Layout from '@/layout/index.vue'
