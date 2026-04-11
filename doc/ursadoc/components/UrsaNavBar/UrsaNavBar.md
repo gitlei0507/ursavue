@@ -13,8 +13,8 @@ const loadBaseUrsaNavBarSource = async () => (await import('./BaseUrsaNavBar.vue
 
 1. 菜单折叠/展开触发
 2. 用户头像、用户名、角色展示
-3. 注销确认与退出逻辑
-4. 通过 `content` 插槽整体替换导航内容
+3. 注销事件透传（业务层自行处理）
+4. 支持通过插槽覆盖默认布局
 
 通常与 `UrsaMenu`、`UrsaTagsView`、布局容器（Layout）一起使用。
 
@@ -28,40 +28,32 @@ const loadBaseUrsaNavBarSource = async () => (await import('./BaseUrsaNavBar.vue
 
 ### Props
 
-| 参数                       | 说明                         | 类型       | 默认值      |
-| -------------------------- | ---------------------------- | ---------- | ----------- |
-| `menuCollapsed`            | 当前侧栏是否折叠             | `Boolean`  | `false`     |
-| `userStore`                | 用户状态对象（见“依赖说明”） | `Object`   | `undefined` |
-| `useAuth`                  | 认证方法工厂（见“依赖说明”） | `Function` | `undefined` |
-| `haveMenuCollapsedAbility` | 是否显示菜单折叠图标         | `Boolean`  | `true`      |
+| 参数               | 说明                 | 类型      | 默认值       |
+| ------------------ | -------------------- | --------- | ------------ |
+| `menuCollapsed`    | 当前侧栏是否折叠     | `Boolean` | `false`      |
+| `showMenuToggle`   | 是否显示菜单折叠图标 | `Boolean` | `true`       |
+| `user`             | 用户展示对象         | `Object`  | `{}`         |
+| `roleText`         | 角色展示文案         | `String`  | `''`         |
+| `usernameLabel`    | 用户字段标签         | `String`  | `'用户'`     |
+| `roleLabel`        | 角色字段标签         | `String`  | `'角色'`     |
+| `logoutText`       | 注销按钮文案         | `String`  | `'注销'`     |
+| `expandMenuText`   | 展开菜单提示文案     | `String`  | `'展开菜单'` |
+| `collapseMenuText` | 折叠菜单提示文案     | `String`  | `'折叠菜单'` |
 
 ### Events
 
 | 事件名                 | 说明               | 回调参数 |
 | ---------------------- | ------------------ | -------- |
 | `toggle-menu-collapse` | 点击折叠图标时触发 | 无       |
+| `logout-click`         | 点击注销按钮时触发 | 无       |
 
 ### Slots
 
 | 插槽名    | 说明                                | 作用域参数 |
 | --------- | ----------------------------------- | ---------- |
 | `content` | 覆盖整个导航条默认内容（含左/右区） | 无         |
-
-### Composable
-
-`UrsaNavBar` 相关逻辑可通过 `useUrsaNavBar` 复用：
-
-```ts
-import { useUrsaNavBar } from "ursacomponents";
-
-const { userInfo, showRole, logout } = useUrsaNavBar(userStore, useAuth);
-```
-
-| 返回值     | 说明                               | 类型                  |
-| ---------- | ---------------------------------- | --------------------- |
-| `userInfo` | 用户信息响应式对象                 | `ComputedRef<Object>` |
-| `showRole` | 角色展示文案（如“系统管理员”）     | `ComputedRef<String>` |
-| `logout`   | 退出登录方法（弹窗确认后执行清理） | `Function`            |
+| `left`    | 覆盖左侧区域（默认是折叠按钮）      | 无         |
+| `right`   | 覆盖右侧区域（默认是用户区）        | 无         |
 
 ## 使用示例
 
@@ -71,9 +63,10 @@ const { userInfo, showRole, logout } = useUrsaNavBar(userStore, useAuth);
 <template>
   <UrsaNavBar
     :menu-collapsed="menuCollapsed"
-    :user-store="userStore"
-    :use-auth="useAuth"
+    :user="userInfo"
+    :role-text="showRole"
     @toggle-menu-collapse="menuCollapsed = !menuCollapsed"
+    @logout-click="handleLogout"
   />
 </template>
 ```
@@ -81,8 +74,8 @@ const { userInfo, showRole, logout } = useUrsaNavBar(userStore, useAuth);
 ### 示例 2：通过插槽自定义右侧区域
 
 ```vue
-<UrsaNavBar :user-store="userStore" :use-auth="useAuth">
-  <template #content>
+<UrsaNavBar :user="userInfo" :role-text="showRole" @logout-click="handleLogout">
+  <template #right>
     <div class="ml-auto flex items-center gap-2">
       <el-button>消息</el-button>
       <el-button type="danger" @click="onLogout">退出</el-button>

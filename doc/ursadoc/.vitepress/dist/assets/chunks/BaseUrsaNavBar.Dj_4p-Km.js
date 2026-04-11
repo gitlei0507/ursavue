@@ -1,4 +1,4 @@
-﻿<script setup>
+const e=`\uFEFF<script setup>
   import { UrsaNavBar } from 'ursacomponents'
   import { computed, reactive, ref } from 'vue'
 
@@ -23,7 +23,7 @@
     // eslint-disable-next-line no-console
     console.log('logout-click')
   }
-</script>
+<\/script>
 
 <template>
   <div class="w-full border border-gray-200 rounded" style="color:#000">
@@ -33,3 +33,4 @@
 </template>
 
 <style scoped></style>
+`;export{e as default};
