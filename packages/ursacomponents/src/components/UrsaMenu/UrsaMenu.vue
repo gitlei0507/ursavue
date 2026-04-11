@@ -2,7 +2,7 @@
     <el-aside :width="asideWidth" class="ursa-menu-aside">
         <div v-if="title && !collapse" class="ursa-menu-title">{{ title }}</div>
 
-        <el-menu :router="router" :default-active="defaultActive" class="el-menu-vertical-demo" :collapse="collapse"
+        <el-menu class="el-menu-vertical-demo" :router="router" :default-active="defaultActive" :collapse="collapse"
             :collapse-transition="false" background-color="#000000" text-color="#ffffff" active-text-color="#ffd04b"
             @open="handleOpen" @close="handleClose">
             <UrsaMenuItem v-for="menu in visibleMenus" :key="menu.path" :menu="menu" :default-title="defaultTitle"
@@ -56,6 +56,7 @@
         }
     })
 
+    // 通过计算属性，当开启过滤隐藏菜单功能时，进行过滤
     const visibleMenus = computed(() => {
         if (!Array.isArray(props.menus)) {
             return []

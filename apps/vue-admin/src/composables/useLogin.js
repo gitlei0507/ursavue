@@ -1,8 +1,8 @@
 import { login } from '@/api/user'
 import { initDynamicRoutes } from '@/router/dynamic-routes'
+import { getFirstMenuPath } from '@/router/modules'
 import { useUserStore } from '@/stores/user'
 import { useAuth } from '@/utils/auth'
-import { getFirstMenuPath } from '@/utils/menu/menu'
 import { ElMessage } from 'element-plus'
 import { reactive } from "vue"
 import { useRouter } from "vue-router"

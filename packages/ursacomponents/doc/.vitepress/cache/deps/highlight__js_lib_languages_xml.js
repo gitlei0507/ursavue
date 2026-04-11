@@ -1,6 +1,6 @@
 import "./chunk-5WRI5ZAA.js";
 
-// node_modules/highlight.js/es/languages/xml.js
+// ../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/es/languages/xml.js
 function xml(hljs) {
   const regex = hljs.regex;
   const TAG_NAME_RE = regex.concat(/[\p{L}_]/u, regex.optional(/[\p{L}0-9_.-]*:/u), /[\p{L}0-9_.-]*/u);

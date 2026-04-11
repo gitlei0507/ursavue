@@ -1,6 +1,6 @@
 import "./chunk-5WRI5ZAA.js";
 
-// node_modules/highlight.js/es/languages/javascript.js
+// ../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/es/languages/javascript.js
 var IDENT_RE = "[A-Za-z$_][0-9A-Za-z$_]*";
 var KEYWORDS = [
   "as",

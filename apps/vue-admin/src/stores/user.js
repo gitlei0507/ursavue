@@ -1,4 +1,4 @@
-import { buildMenuTree } from '@/utils/menu/menu'
+import { buildMenuTree } from '@/router/modules/menu'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 

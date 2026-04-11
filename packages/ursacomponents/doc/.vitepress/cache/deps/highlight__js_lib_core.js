@@ -3,9 +3,9 @@ import {
   __toESM
 } from "./chunk-5WRI5ZAA.js";
 
-// node_modules/highlight.js/lib/core.js
+// ../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/lib/core.js
 var require_core = __commonJS({
-  "node_modules/highlight.js/lib/core.js"(exports, module) {
+  "../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/lib/core.js"(exports, module) {
     function deepFreeze(obj) {
       if (obj instanceof Map) {
         obj.clear = obj.delete = obj.set = function() {
@@ -1541,7 +1541,7 @@ var require_core = __commonJS({
   }
 });
 
-// node_modules/highlight.js/es/core.js
+// ../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/es/core.js
 var import_core = __toESM(require_core());
 var core_default = import_core.default;
 var export_HighlightJS = import_core.default;

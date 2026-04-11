@@ -8,7 +8,7 @@ const loadIconResolverUrsaMenuSource = async () => (await import('./IconResolver
 
 # UrsaMenu 菜单组件
 
-提供导航菜单，基于 Element Plus 的 `el-menu`、`el-menu-item`、`el-sub-menu` 封装，支持树形菜单、图标映射和隐藏项过滤。
+提供导航菜单，基于 Element Plus 的 `el-menu`、`el-menu-item`、`el-sub-menu` 封装，支持树形菜单、图标映射、隐藏项过滤、菜单展开/收起。
 
 ## 基础示例
 
@@ -25,6 +25,7 @@ const loadIconResolverUrsaMenuSource = async () => (await import('./IconResolver
 | `title`         | 菜单顶部标题                   | `String`   | `管理系统后台` |                                |
 | `asideWidth`    | 侧栏宽度                       | `String`   | `'200px'`      |                                |
 | `router`        | 是否启用路由模式               | `Boolean`  | `true`         |                                |
+| `collapse`      | 菜单展开/收起                  | `Boolean`  | `false`        |                                |
 | `filterHidden`  | 是否过滤 `hidden: true` 的菜单 | `Boolean`  | `true`         |                                |
 | `defaultTitle`  | 菜单名称兜底                   | `String`   | `未命名菜单`   |                                |
 | `iconResolver`  | 自定义图标解析函数             | `Function` | `undefined`    |                                |
@@ -89,7 +90,7 @@ const loadIconResolverUrsaMenuSource = async () => (await import('./IconResolver
 
 ### 1. 登录后获取用户与菜单数据
 
-登录成功后，前端通常会请求一个“当前用户信息”接口，接口中包含菜单权限列表：
+登录成功后，后端返回"当前用户信息"，接口中包含菜单权限列表：
 
 ```ts
 const fetchUserInfo = async () => {
@@ -101,10 +102,10 @@ const fetchUserInfo = async () => {
 
 ### 2. 将后台菜单转为树形结构
 
-后台可能返回扁平结构，`UrsaMenu` 需要树形结构。 可直接使用 `ursacomponents` 的 `buildMenuTree`：
+后台可能返回扁平结构，`UrsaMenu` 需要树形结构。 可直接使用`menu.js`中的函数`buildMenuTree`进行转换：
 
-```ts
-import { buildMenuTree } from "ursacomponents";
+```js
+import { buildMenuTree } from "@/router/modules";
 
 const treeMenus = buildMenuTree(userInfo.value?.menus || []);
 ```
@@ -116,11 +117,11 @@ const treeMenus = buildMenuTree(userInfo.value?.menus || []);
 
 ### 3. 初始化动态路由，见【动态路由】章节
 
-### 4. 一般会将转换后的树形菜单存放在 Pinia 中
+### 4. 将转换后的树形菜单存放在 Pinia 中
 
 ### 5. 从 Pinia 中获取菜单数据，在 layout 侧边栏渲染 UrsaMenu
 
-### 6. 点击菜单后的最终行为
+### 6. 点击菜单后的行为
 
 `UrsaMenu` 内部基于 `el-menu` 的 `router` 模式工作。  
 点击菜单项时：

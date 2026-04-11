@@ -1,6 +1,6 @@
 import "./chunk-5WRI5ZAA.js";
 
-// node_modules/highlight.js/es/languages/json.js
+// ../../node_modules/.pnpm/highlight.js@11.11.1/node_modules/highlight.js/es/languages/json.js
 function json(hljs) {
   const ATTRIBUTE = {
     className: "attr",
