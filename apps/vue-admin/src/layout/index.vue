@@ -7,21 +7,9 @@
 
             <el-container direction="vertical" class="h-full min-w-0 flex-1">
                 <!-- 顶部区域 -->
-                <!-- <UrsaNavBar :menu-collapsed="isMenuCollapsed" @toggle-menu-collapse="toggleMenuCollapse"
+                <UrsaNavBar :menu-collapsed="isMenuCollapsed" @toggle-menu-collapse="toggleMenuCollapse"
                     :user="userInfo" :role-text="showRole" :show-menu-toggle="haveMenuCollapsedAbility"
-                    @logout-click="handleLogout" /> -->
-                <UrsaNavBar>
-                    <template #right>
-                        <div class="ml-auto flex items-center gap-2">
-                            <span class="pr-2">
-                                <el-icon>
-                                    <Bell />
-                                </el-icon>
-                            </span>
-                            <el-button type="danger" @click="onLogout">退出</el-button>
-                        </div>
-                    </template>
-                </UrsaNavBar>
+                    @logout-click="handleLogout" />
 
 
                 <!-- 标签区域 -->

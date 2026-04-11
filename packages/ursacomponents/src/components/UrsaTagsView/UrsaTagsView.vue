@@ -43,12 +43,14 @@
         set: (val) => val
     })
 
+    // 根据路由信息构造标签对象，统一标签字段结构。
     const createTab = (currentRoute) => ({
         path: currentRoute.path,
         title: currentRoute.meta?.title || currentRoute.name || currentRoute.path,
         closable: currentRoute.path !== props.homePath
     })
 
+    // 初始化并兜底首页标签，确保标签栏至少有一个可用页签。
     const ensureHomeTab = () => {
         // 保证首页标签始终存在，避免标签被关完后无可展示内容。
         const existed = tabs.value.some((tab) => tab.path === props.homePath)
@@ -65,6 +67,7 @@
         )
     }
 
+    // 将当前路由加入标签列表（仅首次出现时添加）。
     const addTabIfNotExists = (currentRoute) => {
         // 忽略无效路径与根路径占位，并避免重复添加同一路径标签。
         if (!currentRoute?.path || currentRoute.path === '/') {
@@ -77,6 +80,7 @@
         }
     }
 
+    // 点击标签时切换路由到目标标签页面。
     const handleTabClick = (tabPane) => {
         // 仅在路由可用时执行跳转，无路由时点击仅做展示交互。
         if (!hasRouter.value) {
@@ -88,6 +92,7 @@
         }
     }
 
+    // 关闭指定标签，并在必要时决定新的激活页面。
     const handleTabRemove = (targetPath) => {
         // 若关闭的是当前激活标签，按“右侧优先、其次左侧、最后首页”选择下一个目标页。
         const currentIndex = tabs.value.findIndex((tab) => tab.path === targetPath)
@@ -106,6 +111,7 @@
         router.push(fallbackPath)
     }
 
+    // 关闭当前激活标签（首页标签不可关闭）。
     const closeCurrentTab = () => {
         // 没有路由时，默认关闭当前激活标签
         const targetPath = hasRouter.value ? route.path : activeTab.value
@@ -129,7 +135,7 @@
         { immediate: true }
     )
 
-
+    // 对外暴露的事件    
     defineExpose({
         closeCurrentTab
     })
