@@ -1,6 +1,7 @@
 ﻿<script setup>
 import BaseUrsaNavBar from './BaseUrsaNavBar.vue'
 import SourceCodeViewer from '../shared/SourceCodeViewer.vue'
+import ImagePreview from '../shared/ImagePreview.vue'
 
 const loadBaseUrsaNavBarSource = async () => (await import('./BaseUrsaNavBar.vue?raw')).default
 </script>
@@ -33,12 +34,12 @@ const loadBaseUrsaNavBarSource = async () => (await import('./BaseUrsaNavBar.vue
 | `menuCollapsed`    | 当前侧栏是否折叠     | `Boolean` | `false`      |
 | `showMenuToggle`   | 是否显示菜单折叠图标 | `Boolean` | `true`       |
 | `user`             | 用户展示对象         | `Object`  | `{}`         |
-| `roleText`         | 角色展示文案         | `String`  | `''`         |
+| `roleText`         | 角色展示信息         | `String`  | `''`         |
 | `usernameLabel`    | 用户字段标签         | `String`  | `'用户'`     |
 | `roleLabel`        | 角色字段标签         | `String`  | `'角色'`     |
-| `logoutText`       | 注销按钮文案         | `String`  | `'注销'`     |
-| `expandMenuText`   | 展开菜单提示文案     | `String`  | `'展开菜单'` |
-| `collapseMenuText` | 折叠菜单提示文案     | `String`  | `'折叠菜单'` |
+| `logoutText`       | 注销按钮文字         | `String`  | `'注销'`     |
+| `expandMenuText`   | 展开菜单提示文字     | `String`  | `'展开菜单'` |
+| `collapseMenuText` | 折叠菜单提示文字     | `String`  | `'折叠菜单'` |
 
 ### Events
 
@@ -74,12 +75,18 @@ const loadBaseUrsaNavBarSource = async () => (await import('./BaseUrsaNavBar.vue
 ### 示例 2：通过插槽自定义右侧区域
 
 ```vue
-<UrsaNavBar :user="userInfo" :role-text="showRole" @logout-click="handleLogout">
-  <template #right>
-    <div class="ml-auto flex items-center gap-2">
-      <el-button>消息</el-button>
-      <el-button type="danger" @click="onLogout">退出</el-button>
-    </div>
-  </template>
+<UrsaNavBar>
+    <template #right>
+        <div class="ml-auto flex items-center gap-2">
+            <span class="pr-2">
+                <el-icon>
+                    <Bell />
+                </el-icon>
+            </span>
+            <el-button type="danger" @click="onLogout">退出</el-button>
+        </div>
+    </template>
 </UrsaNavBar>
 ```
+
+<ImagePreview src='./images/rightSlot.png' alt='右侧Slot示例'></ImagePreview>
