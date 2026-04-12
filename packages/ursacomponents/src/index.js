@@ -2,6 +2,7 @@ import UrsaMenu from './components/UrsaMenu/UrsaMenu.vue'
 import UrsaMenuItem from './components/UrsaMenu/UrsaMenuItem.vue'
 import UrsaNavBar from './components/UrsaNavBar/UrsaNavBar.vue'
 import UrsaSearch from './components/UrsaSearch/UrsaSearch.vue'
+import UrsaSelect from './components/UrsaSelect/UrsaSelect.vue'
 import UrsaTable from './components/UrsaTable/UrsaTable.vue'
 import UrsaTagsView from './components/UrsaTagsView/UrsaTagsView.vue'
 import './styles/tailwind.css'
@@ -13,10 +14,10 @@ export { useUrsaMenuItem } from './components/UrsaMenu/useUrsaMenuItem'
 export { useUrsaSearch } from './components/UrsaSearch/useUrsaSearch'
 export { useUrsaTable } from './components/UrsaTable/useUrsaTable'
 // 组件按需导出。
-export { UrsaMenu, UrsaMenuItem, UrsaNavBar, UrsaSearch, UrsaTable, UrsaTagsView }
+export { UrsaMenu, UrsaMenuItem, UrsaNavBar, UrsaSearch, UrsaSelect, UrsaTable, UrsaTagsView }
 
 // 全量安装时需要注册的组件列表。
-const components = [UrsaSearch, UrsaTable, UrsaMenu, UrsaMenuItem, UrsaTagsView, UrsaNavBar]
+const components = [UrsaSearch, UrsaTable, UrsaMenu, UrsaMenuItem, UrsaTagsView, UrsaNavBar, UrsaSelect]
 
 // Vue 插件安装入口：一次性注册所有组件。
 const install = (app) => {

@@ -119,7 +119,9 @@
 
     const searchForm = reactive({
         username: '',
-        email: ''
+        email: '',
+        role: '',
+        terminal: ''
     })
 
     // 查询字段配置
