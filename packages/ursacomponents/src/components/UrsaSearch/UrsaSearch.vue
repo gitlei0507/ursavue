@@ -2,19 +2,34 @@
     <el-card class="search-card" shadow="never">
         <el-form :inline="inline" class="search-form">
             <template v-if="fields.length > 0">
+                <!-- 单行输入框 -->
                 <el-form-item v-for="field in fields" :key="field.prop || field.label" :label="field.label">
                     <el-input v-if="field.type === 'input'" :model-value="getFieldValue(field.prop)"
                         @update:model-value="(value) => setFieldValue(field.prop, value)"
                         :placeholder="field.placeholder || `请输入${field.label || ''}`"
                         :clearable="field.clearable ?? true" :class="field.class ?? '!w-48'"
                         v-bind="field.componentProps" />
+
+                    <!-- 下拉框     -->
                     <el-select v-else-if="field.type === 'select'" :model-value="getFieldValue(field.prop)"
                         @update:model-value="(value) => setFieldValue(field.prop, value)"
                         :placeholder="field.placeholder || `请选择${field.label || ''}`"
-                        :clearable="field.clearable ?? true" :class="field.class" v-bind="field.componentProps">
+                        :clearable="field.clearable ?? true" :class="field.class ?? '!w-48'"
+                        v-bind="field.componentProps" :multiple="field.multiple ?? false"
+                        :filterable="field.filterable ?? true">
                         <el-option v-for="option in field.options || []" :key="option.value" :label="option.label"
-                            :value="option.value" />
+                            :value="option.value" :disabled="option.disabled ?? false" />
                     </el-select>
+
+                    <!-- 树形下拉框 -->
+                    <el-tree-select v-if="field.type === 'treeselect'" :data="field.data"
+                        :model-value="getFieldValue(field.prop)"
+                        @update:model-value="(value) => setFieldValue(field.prop, value)"
+                        :placeholder="field.placeholder || `请选择${field.label || ''}`" :class="field.class ?? '!w-48'"
+                        :disabled="false" :show-checkbox="true"
+                        :default-expanded-keys="getTreeSelectExpandedKeys(field)" />
+
+                    <!-- 其他控件 -->
                     <slot v-else name="field" :field="field" :value="getFieldValue(field.prop)"
                         :set-value="(value) => setFieldValue(field.prop, value)" />
                 </el-form-item>
@@ -75,6 +90,21 @@
             return
         }
         props.model[prop] = value
+    }
+
+    // 获取树节点主键字段，优先读取组件透传配置，未配置时回退到 value。
+    const getTreeNodeKeyField = (field) => {
+        return field?.componentProps?.props?.value || field?.componentProps?.nodeKey || field?.componentProps?.['node-key'] || 'value'
+    }
+
+    // 默认展开根节点，使树形下拉初始展示到“根节点下一层”。
+    const getTreeSelectExpandedKeys = (field) => {
+        const data = Array.isArray(field?.data) ? field.data : []
+        const keyField = getTreeNodeKeyField(field)
+
+        return data
+            .map((node) => node?.[keyField])
+            .filter((key) => key !== undefined && key !== null && key !== '')
     }
 </script>
 

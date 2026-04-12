@@ -133,6 +133,40 @@
             type: 'input',
             prop: 'email',
             label: '邮箱'
+        },
+        {
+            type: 'select',
+            prop: 'role',
+            label: '角色',
+            options: [
+                { label: '系统管理员', value: '1' },
+                { label: '普通用户', value: '2' },
+            ]
+        },
+        {
+            type: 'treeselect',
+            prop: 'terminal',
+            label: '类型',
+            data: [
+                {
+                    value: 'root',
+                    label: '资产类型',
+                    children: [
+                        {
+                            value: 'camera',
+                            label: '网络设备',
+                            children: [
+                                { value: 'networkcamera', label: '网络摄像机', },
+                                { value: 'networkdisk', label: '网络硬盘录像机', },
+                            ],
+                        },
+                        {
+                            value: 'security',
+                            label: '安全设备',
+                        },
+                    ],
+                },
+            ]
         }
     ]
 
@@ -146,7 +180,6 @@
         {
             prop: 'email',
             label: '邮箱',
-            minWidth: '200',
             showOverflowTooltip: true
         },
         {
