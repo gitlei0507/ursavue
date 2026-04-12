@@ -11,20 +11,10 @@
                         v-bind="field.componentProps" />
 
                     <!-- 下拉框     -->
-                    <!-- <el-select v-else-if="field.type === 'select'" :model-value="getFieldValue(field.prop)"
-                        @update:model-value="(value) => setFieldValue(field.prop, value)"
-                        :placeholder="field.placeholder || `请选择${field.label || ''}`"
-                        :clearable="field.clearable ?? true" :class="field.class ?? '!w-48'"
-                        v-bind="field.componentProps" :multiple="field.multiple ?? false"
-                        :filterable="field.filterable ?? true">
-                        <el-option v-for="option in field.options || []" :key="option.value" :label="option.label"
-                            :value="option.value" :disabled="option.disabled ?? false" />
-                    </el-select> -->
-
                     <UrsaSelect v-else-if="field.type === 'select'" :field="field" :model="model" />
 
                     <!-- 树形下拉框 -->
-                    <el-tree-select v-if="field.type === 'treeselect'" :data="field.data"
+                    <el-tree-select v-else-if="field.type === 'treeselect'" :data="field.data"
                         :model-value="getFieldValue(field.prop)"
                         @update:model-value="(value) => setFieldValue(field.prop, value)"
                         :placeholder="field.placeholder || `请选择${field.label || ''}`" :class="field.class ?? '!w-48'"

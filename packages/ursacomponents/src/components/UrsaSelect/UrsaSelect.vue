@@ -3,9 +3,11 @@
         @update:model-value="(value) => setFieldValue(field.prop, value)"
         :placeholder="field.placeholder || `请选择${field.label || ''}`" :clearable="field.clearable ?? true"
         :multiple="field.multiple ?? false" :filterable="field.filterable ?? true" :class="field.class || '!w-48'"
-        v-bind="field.componentProps" :options="field.options || []" :v-bind="field.componentProps">
-        <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value"
-            :disabled="option.disabled ?? false" />
+        v-bind="field.componentProps" :options="field.options || []">
+        <slot name="option">
+            <el-option v-for="option in options" :key="option.value" :label="option.label" :value="option.value"
+                :disabled="option.disabled ?? false" />
+        </slot>
     </el-select>
 </template>
 
