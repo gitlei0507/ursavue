@@ -26,5 +26,15 @@ export default defineConfig({
                 }
             }
         }
+    },
+    resolve: {
+        alias: [
+            {
+                // 路径别名配置 - '@' 指向 'src' 目录
+                // 例如：import App from '@/App.vue'
+                find: '@',
+                replacement: fileURLToPath(new URL('./src', import.meta.url)),
+            },
+        ]
     }
 })
