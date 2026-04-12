@@ -11,7 +11,8 @@
                         v-bind="field.componentProps" />
 
                     <!-- 下拉框     -->
-                    <UrsaSelect v-else-if="field.type === 'select'" :field="field" :model="model" />
+                    <UrsaSelect v-else-if="field.type === 'select'" :field="field" :model="model" @change="field.change"
+                        @blur="field.blur" />
 
                     <!-- 树形下拉框 -->
                     <ursa-tree-select v-else-if="field.type = 'treeselect'" :field="field" :model="model" />
