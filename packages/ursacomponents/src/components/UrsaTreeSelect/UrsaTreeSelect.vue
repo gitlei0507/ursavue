@@ -1,8 +1,21 @@
 <template>
     <el-tree-select :data="field.data" :model-value="getValue(field.prop)"
         @update:model-value="(value) => setValue(field.prop, value)"
-        :placeholder="field.placeholder || `请选择${field.label || ''}`" :class="field.class ?? '!w-48'" :disabled="false"
-        :show-checkbox="true" :default-expanded-keys="getTreeSelectExpandedKeys(field)" />
+        :placeholder="field.placeholder || `请选择${field.label || ''}`" :class="field.class ?? '!w-48'"
+        :filterable="field.filterable ?? true" :show-checkbox="field.showCheckbox ?? true"
+        :check-strictly="field.checkStrictly ?? true" :multiple="field.multiple ?? false"
+        :default-expanded-keys="getTreeSelectExpandedKeys(field)"
+        :popper-class="(field.disableRootSelection ?? true) ? 'ursa-tree-select-popper' : ''">
+        <template v-if="field.showIcon ?? true" #default="{ data }">
+            <span class="node-row">
+                <el-icon class="node-icon">
+                    <FolderOpened v-if="data.isFolderOpened" />
+                    <Document v-else />
+                </el-icon>
+                <span class="node-label">{{ data.label }}</span>
+            </span>
+        </template>
+    </el-tree-select>
 </template>
 
 <script setup>
@@ -44,4 +57,27 @@
 
 </script>
 
-<style scoped></style>
+<style>
+
+    /* 去除根节点前的复选框 */
+    .ursa-tree-select-popper .el-tree>.el-tree-node>.el-tree-node__content .el-checkbox {
+        display: none;
+    }
+</style>
+
+<style scoped>
+
+    .node-row {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .node-icon {
+        color: blue;
+    }
+
+    .node-label {
+        color: #303133;
+    }
+</style>

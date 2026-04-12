@@ -153,18 +153,21 @@
                 {
                     value: 'root',
                     label: '资产类型',
+                    isFolderOpened: true,
                     children: [
                         {
                             value: 'camera',
                             label: '网络设备',
+                            isFolderOpened: true,
                             children: [
-                                { value: 'networkcamera', label: '网络摄像机', },
-                                { value: 'networkdisk', label: '网络硬盘录像机', },
+                                { value: 'networkcamera', label: '网络摄像机', isFolderOpened: false },
+                                { value: 'networkdisk', label: '网络硬盘录像机', isFolderOpened: false },
                             ],
                         },
                         {
                             value: 'security',
                             label: '安全设备',
+                            isFolderOpened: true
                         },
                     ],
                 },
