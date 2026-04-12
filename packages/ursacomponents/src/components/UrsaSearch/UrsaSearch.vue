@@ -14,12 +14,8 @@
                     <UrsaSelect v-else-if="field.type === 'select'" :field="field" :model="model" />
 
                     <!-- 树形下拉框 -->
-                    <el-tree-select v-else-if="field.type === 'treeselect'" :data="field.data"
-                        :model-value="getFieldValue(field.prop)"
-                        @update:model-value="(value) => setFieldValue(field.prop, value)"
-                        :placeholder="field.placeholder || `请选择${field.label || ''}`" :class="field.class ?? '!w-48'"
-                        :disabled="false" :show-checkbox="true"
-                        :default-expanded-keys="getTreeSelectExpandedKeys(field)" />
+                    <ursa-tree-select v-else-if="field.type = 'treeselect'" :field="field" :model="model" />
+
 
                     <!-- 其他控件 -->
                     <slot v-else name="field" :field="field" :value="getFieldValue(field.prop)"
@@ -38,6 +34,7 @@
 <script setup>
     import { Refresh, Search } from '@element-plus/icons-vue'
     import UrsaSelect from '../UrsaSelect/UrsaSelect.vue'
+    import UrsaTreeSelect from '../UrsaTreeSelect/UrsaTreeSelect.vue'
     import { useUrsaSearch } from './useUrsaSearch'
 
     defineOptions({
