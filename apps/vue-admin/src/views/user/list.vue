@@ -172,6 +172,16 @@
                     ],
                 },
             ]
+        },
+        {
+            type: 'date',
+            prop: 'cttimestart',
+            label: '创建时间开始'
+        },
+        {
+            type: 'year',
+            prop: 'cttimeend',
+            label: '创建时间结束'
         }
     ]
 

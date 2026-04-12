@@ -1,3 +1,4 @@
+import UrsaDate from './components/UrsaDate/UrsaDate.vue'
 import UrsaInput from './components/UrsaInput/UrsaInput.vue'
 import UrsaMenu from './components/UrsaMenu/UrsaMenu.vue'
 import UrsaMenuItem from './components/UrsaMenu/UrsaMenuItem.vue'
@@ -16,10 +17,10 @@ export { useUrsaMenuItem } from './components/UrsaMenu/useUrsaMenuItem'
 export { useUrsaSearch } from './components/UrsaSearch/useUrsaSearch'
 export { useUrsaTable } from './components/UrsaTable/useUrsaTable'
 // 组件按需导出。
-export { UrsaInput, UrsaMenu, UrsaMenuItem, UrsaNavBar, UrsaSearch, UrsaSelect, UrsaTable, UrsaTagsView, UrsaTreeSelect }
+export { UrsaDate, UrsaInput, UrsaMenu, UrsaMenuItem, UrsaNavBar, UrsaSearch, UrsaSelect, UrsaTable, UrsaTagsView, UrsaTreeSelect }
 
 // 全量安装时需要注册的组件列表。
-const components = [UrsaSearch, UrsaTable, UrsaMenu, UrsaMenuItem, UrsaTagsView, UrsaNavBar, UrsaSelect, UrsaTreeSelect, UrsaInput]
+const components = [UrsaSearch, UrsaTable, UrsaMenu, UrsaMenuItem, UrsaTagsView, UrsaNavBar, UrsaSelect, UrsaTreeSelect, UrsaInput, UrsaDate]
 
 // Vue 插件安装入口：一次性注册所有组件。
 const install = (app) => {

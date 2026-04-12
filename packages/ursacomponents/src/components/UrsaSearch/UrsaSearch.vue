@@ -14,6 +14,11 @@
                     <!-- 树形下拉框 -->
                     <ursa-tree-select v-else-if="field.type === 'treeselect'" :field="field" :model="model" />
 
+                    <!-- 日期时间 -->
+                    <UrsaDate
+                        v-else-if="['date', 'week', 'year', 'month', 'dates', 'years', 'months'].includes(field.type)"
+                        :field="field" :model="model" />
+
 
                     <!-- 其他控件 -->
                     <slot v-else name="field" :field="field" :value="getFieldValue(field.prop)"
@@ -81,20 +86,6 @@
         props.model[prop] = value
     }
 
-    // 获取树节点主键字段，优先读取组件透传配置，未配置时回退到 value。
-    const getTreeNodeKeyField = (field) => {
-        return field?.componentProps?.props?.value || field?.componentProps?.nodeKey || field?.componentProps?.['node-key'] || 'value'
-    }
-
-    // 默认展开根节点，使树形下拉初始展示到“根节点下一层”。
-    const getTreeSelectExpandedKeys = (field) => {
-        const data = Array.isArray(field?.data) ? field.data : []
-        const keyField = getTreeNodeKeyField(field)
-
-        return data
-            .map((node) => node?.[keyField])
-            .filter((key) => key !== undefined && key !== null && key !== '')
-    }
 </script>
 
 <style scoped>
