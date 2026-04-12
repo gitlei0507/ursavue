@@ -4,18 +4,15 @@
             <template v-if="fields.length > 0">
                 <!-- 单行输入框 -->
                 <el-form-item v-for="field in fields" :key="field.prop || field.label" :label="field.label">
-                    <el-input v-if="field.type === 'input'" :model-value="getFieldValue(field.prop)"
-                        @update:model-value="(value) => setFieldValue(field.prop, value)"
-                        :placeholder="field.placeholder || `请输入${field.label || ''}`"
-                        :clearable="field.clearable ?? true" :class="field.class ?? '!w-48'"
-                        v-bind="field.componentProps" />
+                    <!-- 单行输入框 -->
+                    <UrsaInput v-if="field.type === 'input'" :field="field" :model="model" />
 
                     <!-- 下拉框     -->
                     <UrsaSelect v-else-if="field.type === 'select'" :field="field" :model="model" @change="field.change"
                         @blur="field.blur" />
 
                     <!-- 树形下拉框 -->
-                    <ursa-tree-select v-else-if="field.type = 'treeselect'" :field="field" :model="model" />
+                    <ursa-tree-select v-else-if="field.type === 'treeselect'" :field="field" :model="model" />
 
 
                     <!-- 其他控件 -->
@@ -34,6 +31,7 @@
 
 <script setup>
     import { Refresh, Search } from '@element-plus/icons-vue'
+    import UrsaInput from '../UrsaInput/UrsaInput.vue'
     import UrsaSelect from '../UrsaSelect/UrsaSelect.vue'
     import UrsaTreeSelect from '../UrsaTreeSelect/UrsaTreeSelect.vue'
     import { useUrsaSearch } from './useUrsaSearch'

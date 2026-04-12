@@ -17,7 +17,7 @@
         name: 'UrsaSelect',
     })
 
-    const emit = defineEmits(['change'])
+    const emit = defineEmits(['change', 'blur'])
 
     const props = defineProps({
         field: {
