@@ -1,7 +1,11 @@
 ﻿<template>
     <div class="user-list-container">
         <!-- 搜索栏 -->
-        <UrsaSearch :model="searchForm" :fields="searchFields" @search="handleSearch" />
+        <UrsaSearch :model="searchForm" :fields="searchFields" @search="handleSearch">
+            <template #btnArea>
+                <el-button type="primary" @click="test" :icon="Search">测试</el-button>
+            </template>
+        </UrsaSearch>
 
         <!-- 列表区域 -->
         <UrsaTable :data="tableData" :columnFields="columnFields" :loading="loading" :current-page="currentPage"
@@ -121,7 +125,12 @@
         username: '',
         email: '',
         role: '',
-        terminal: ''
+        terminal: '',
+        cttimestart: '',
+        cttimeend: '',
+        uptimestart: '',
+        uptimeend: ''
+
     })
 
     // 查询字段配置
@@ -174,14 +183,19 @@
             ]
         },
         {
-            type: 'date',
+            type: 'datetime',
             prop: 'cttimestart',
-            label: '创建时间开始'
+            label: '创建时间开始',
         },
         {
-            type: 'year',
+            type: 'date',
             prop: 'cttimeend',
-            label: '创建时间结束'
+            label: '创建时间结束',
+        },
+        {
+            type: 'datetimerange',
+            prop: ['uptimestart', 'uptimeend'],
+            label: '更新时间',
         }
     ]
 
@@ -208,6 +222,11 @@
             tagDefault: ({ value }) => ({ label: value ?? '-' })
         }
     ]
+
+    const test = () => {
+        console.log(searchForm);
+
+    }
 
 
 

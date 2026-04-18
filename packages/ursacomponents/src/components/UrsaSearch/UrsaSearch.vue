@@ -16,7 +16,7 @@
 
                     <!-- 日期时间 -->
                     <UrsaDate
-                        v-else-if="['date', 'week', 'year', 'month', 'dates', 'years', 'months'].includes(field.type)"
+                        v-else-if="['date', 'week', 'year', 'month', 'dates', 'years', 'months', 'daterange', 'datetime', 'datetimerange'].includes(field.type)"
                         :field="field" :model="model" />
 
 
@@ -27,8 +27,10 @@
             </template>
             <slot v-else />
             <el-form-item>
-                <el-button type="primary" @click="emit('search')" :icon="Search">查询</el-button>
-                <el-button @click="handleReset" :icon="Refresh">重置</el-button>
+                <slot name="btnArea">
+                    <el-button type="primary" @click="emit('search')" :icon="Search">查询</el-button>
+                    <el-button @click="handleReset" :icon="Refresh">重置</el-button>
+                </slot>
             </el-form-item>
         </el-form>
     </el-card>
