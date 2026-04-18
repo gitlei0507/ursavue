@@ -5,22 +5,24 @@
         </div>
 
         <div class="table-wrapper">
-            <el-table :data="data" v-loading="loading" stripe border style="width: 100%" height="100%"
-                :default-sort="defaultSort" @sort-change="handleSortChange" @selection-change="handleSelectionChange">
-                <el-table-column v-if="showIndex" type="index" :label="indexLabel" :width="indexWidth" align="center"
-                    :index="calcIndex" />
-                <el-table-column v-if="showSelection" type="selection" :width="selectionWidth" align="center" />
+            <el-table stripe border style="width: 100%" height="100%" :data="tableData" v-loading="loading"
+                :default-sort="props.defaultSort" @sort-change="handleSortChange"
+                @selection-change="handleSelectionChange">
+                <el-table-column v-if="props.showIndex" type="index" :label="props.indexLabel" :width="props.indexWidth"
+                    align="center" :index="calcIndex" />
+                <el-table-column v-if="props.showSelection" type="selection" :width="props.selectionWidth"
+                    align="center" />
 
-                <template v-if="!Array.isArray(columnFields) || columnFields.length === 0">
+                <template v-if="!Array.isArray(props.columnFields) || props.columnFields.length === 0">
                     <slot />
                 </template>
 
                 <template v-else>
-                    <el-table-column v-for="column in columnFields" :key="column.prop || column.label"
+                    <el-table-column v-for="column in props.columnFields" :key="column.prop || column.label"
                         :prop="column.prop" :label="column.label" :width="column.width ?? undefined"
-                        :min-width="column.minWidth" :align="column.align ?? 'center'"
-                        :sortable="column.sortable ?? 'custom'" :fixed="column.fixed"
-                        :show-overflow-tooltip="column.showOverflowTooltip ?? false">
+                        :min-width="column.minWidth" :align="column.valueAlign ?? 'center'"
+                        :header-align="column.headerAlign ?? 'center'" :sortable="column.sortable ?? 'custom'"
+                        :fixed="column.fixed" :show-overflow-tooltip="column.showOverflowTooltip ?? false">
                         <template #default="scope">
                             <slot v-if="hasColumnSlot(column)" :name="getColumnSlotName(column)" :row="scope.row"
                                 :index="scope.$index" :column="column" :value="getCellValue(scope.row, column)"></slot>
@@ -43,7 +45,7 @@
                 </template>
 
                 <!-- 操作区域 -->
-                <el-table-column v-if="showActionColumn" :label="resolvedActionColumn.label"
+                <el-table-column v-if="props.showActionColumn" :label="resolvedActionColumn.label"
                     :width="resolvedActionColumn.width" :align="resolvedActionColumn.align"
                     :fixed="resolvedActionColumn.fixed">
                     <template #default="scope">
@@ -64,7 +66,7 @@
         <!-- 分页区域 -->
         <div class="pagination-container">
             <div class="pagination-wrapper">
-                <el-pagination :current-page="currentPage" :page-size="pageSize" :page-sizes="pageSizes" background
+                <el-pagination :current-page="currentPage" :page-size="pageSize" background
                     layout="total, sizes, prev, pager, next, jumper" :total="total"
                     @current-change="handleCurrentChange" @size-change="handleSizeChange" />
             </div>
@@ -75,73 +77,96 @@
 <script setup>
     import { Delete, Edit, View } from '@element-plus/icons-vue'
     import { computed, useSlots } from 'vue'
+    import { useUrsaTable } from './useUrsaTable.js'
+
 
     defineOptions({
         name: 'UrsaTable'
     })
 
+    // 接收组件传递的属性
     const props = defineProps({
-        data: {
-            type: Array,
-            default: () => []
+        // 查询方法
+        listFun: {
+            type: Function,
+            default: undefined
         },
+        // 查询区域对象
+        searchForm: {
+            type: Object,
+            default: () => ({})
+        },
+        // 要显示的数据列
         columnFields: {
             type: Array,
             default: () => []
         },
-        loading: {
-            type: Boolean,
-            default: false
-        },
-        currentPage: {
-            type: Number,
-            default: 1
-        },
-        pageSize: {
-            type: Number,
-            default: 10
-        },
-        total: {
-            type: Number,
-            default: 0
-        },
-        pageSizes: {
-            type: Array,
-            default: () => [5, 10, 20, 50]
-        },
+        // 默认排序方式
         defaultSort: {
             type: Object,
             default: () => ({})
         },
+        // 是否显示序号，默认显示
         showIndex: {
             type: Boolean,
             default: true
         },
+        // 序号列列名
         indexLabel: {
             type: String,
             default: '序号'
         },
+        // 序号列宽度 
         indexWidth: {
             type: Number,
             default: 70
         },
+        // 是否显示行选择框
         showSelection: {
             type: Boolean,
-            default: false
+            default: true
         },
+        // 行选择框宽度
         selectionWidth: {
             type: Number,
             default: 55
         },
+        // 是否在每行最后显示操作列
         showActionColumn: {
             type: Boolean,
-            default: false
+            default: true
         },
         actionColumn: {
             type: Object,
-            default: () => ({})
+            default: () => ({
+                label: '操作',
+                width: 240,
+                align: 'center',
+                fixed: 'right'
+            })
         }
     })
+
+    const {
+        tableData,
+        loading,
+        currentPage,
+        pageSize,
+        total,
+        handleSearch,
+        handleDelete,
+        handleCurrentChange,
+        handleSizeChange,
+        handleSortChange,
+        handleSelectionChange,
+        checkSingleSelect,
+        checkHasSelect,
+        selectedRows
+    } = useUrsaTable(props.listFun, props.searchForm, props.defaultSort)
+
+
+    // 计算序号
+    const calcIndex = (index) => (currentPage.value - 1) * pageSize.value + index + 1
 
     const emit = defineEmits((event) => {
         return typeof event === 'string'
@@ -149,6 +174,7 @@
 
     const slots = useSlots()
 
+    // 列表操作列默认按钮组合
     const defaultActionButtons = [
         {
             key: 'view',
@@ -193,13 +219,6 @@
         }
         return defaultActionButtons
     })
-
-    const calcIndex = (index) => (props.currentPage - 1) * props.pageSize + index + 1
-
-    const handleSortChange = (payload) => emit('sort-change', payload)
-    const handleCurrentChange = (page) => emit('current-change', page)
-    const handleSizeChange = (size) => emit('size-change', size)
-    const handleSelectionChange = (rows) => emit('selection-change', rows)
 
     const getCellValue = (row, column) => {
         if (!column?.prop) {
@@ -263,6 +282,7 @@
         return normalizeTagConfig(tagConfig, value)
     }
 
+    // 控制按钮是否显示
     const isActionVisible = (button, row, index) => {
         if (!button || typeof button !== 'object') {
             return false
@@ -276,6 +296,7 @@
         return true
     }
 
+    // 操作列按钮点击统一封装
     const handleActionClick = (button, scope) => {
         const payload = {
             action: button.key ?? button.event ?? 'action',
@@ -292,6 +313,10 @@
         emit('action', payload)
         emit(button.event ?? button.key ?? 'action', payload)
     }
+
+    // 对外暴露方法
+    defineExpose({ handleSearch, handleDelete, checkSingleSelect, checkHasSelect, selectedRows })
+
 </script>
 
 <style scoped>

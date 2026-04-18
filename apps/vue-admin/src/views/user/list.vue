@@ -1,18 +1,12 @@
 ﻿<template>
     <div class="user-list-container">
         <!-- 搜索栏 -->
-        <UrsaSearch :model="searchForm" :fields="searchFields" @search="handleSearch">
-            <template #btnArea>
-                <el-button type="primary" @click="test" :icon="Search">测试</el-button>
-            </template>
-        </UrsaSearch>
+        <UrsaSearch :model="searchForm" :fields="searchFields" @search="handleSearch" />
 
         <!-- 列表区域 -->
-        <UrsaTable :data="tableData" :columnFields="columnFields" :loading="loading" :current-page="currentPage"
-            :page-size="pageSize" :total="total" :default-sort="{ prop: 'username', order: 'ascending' }"
-            :show-action-column="true" @sort-change="handleSortChange" @current-change="handleCurrentChange"
-            @size-change="handleSizeChange" @view="handleViewAction" @edit="handleEditAction"
-            @delete="handleDeleteAction" :showSelection="true" @selection-change="handleSelectionChange">
+        <UrsaTable ref="ursaTableRef" :listFun="list" :searchForm="searchForm" :columnFields="columnFields"
+            :defaultSort="{ prop: 'username', order: 'ascending' }" @view="handleViewAction" @edit="handleEditAction"
+            @delete="handleDeleteAction">
             <template #toolbar>
                 <el-button type="primary" @click="openAddDialog" :icon="Plus">新增</el-button>
                 <el-button type="warning" @click="openNewEdit" :icon="Edit">新开标签编辑</el-button>
@@ -118,8 +112,10 @@
     import { useUser } from '@/composables/useUser';
     import router from '@/router';
     import { Avatar, Edit, Lock, Message, Plus, Star, User, UserFilled } from '@element-plus/icons-vue';
-    import { UrsaSearch, UrsaTable, useUrsaTable } from 'ursacomponents';
-    import { reactive } from 'vue';
+    import { UrsaSearch, UrsaTable } from 'ursacomponents';
+    import { reactive, ref } from 'vue';
+
+    const ursaTableRef = ref(null)
 
     const searchForm = reactive({
         username: '',
@@ -195,7 +191,7 @@
         {
             type: 'datetimerange',
             prop: ['uptimestart', 'uptimeend'],
-            label: '更新时间',
+            label: '更新',
         }
     ]
 
@@ -204,7 +200,8 @@
         {
             prop: 'username',
             label: '姓名',
-            minWidth: '200'
+            minWidth: '200',
+            valueAlign: 'left'
         },
         {
             prop: 'email',
@@ -223,26 +220,13 @@
         }
     ]
 
-    const test = () => {
-        console.log(searchForm);
 
+    const handleSearch = () => {
+        ursaTableRef.value?.handleSearch?.()
     }
 
 
 
-
-    const {
-        tableData,
-        loading,
-        currentPage,
-        pageSize,
-        total,
-        handleSearch,
-        handleDelete,
-        handleCurrentChange,
-        handleSizeChange,
-        handleSortChange
-    } = useUrsaTable(list, searchForm, { prop: 'username', order: 'ascending' })
 
     const {
         dialogVisible,
@@ -258,31 +242,32 @@
         rules
     } = useUser(createUser, updateUser, handleSearch)
 
+    // 查看
     const handleViewAction = ({ row }) => {
         openViewDialog(row)
     }
 
+    // 编辑
     const handleEditAction = ({ row }) => {
         openEditDialog(row)
     }
 
+    // 删除
     const handleDeleteAction = ({ row, index }) => {
-        handleDelete(index, row, deleteUser)
+        ursaTableRef.value.handleDelete(index, row, deleteUser)
     }
 
 
-    const selectedRows = ref([])
-
-    const handleSelectionChange = (rows) => {
-        selectedRows.value = rows
-    }
     // 新开标签编辑
     function openNewEdit() {
-        if (selectedRows.value.length !== 1) {
+        if (ursaTableRef.value?.checkSingleSelect?.()) {
             ElMessage.warning('请选择一条数据进行编辑')
             return
         }
-        const id = selectedRows.value[0].id
+
+        const selectedRow = ursaTableRef.value?.selectedRows?.[0]
+
+        const id = selectedRow.id
         router.push({
             path: '/user/edit',
             query: { id: String(id) }

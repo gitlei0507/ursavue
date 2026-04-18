@@ -2,6 +2,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { onMounted, ref } from 'vue'
 
 export function useUrsaTable(apiFn, searchForm, defaultSort = {}) {
+    // 表格核心状态：数据、加载、分页
     const tableData = ref([])
     const loading = ref(false)
     const currentPage = ref(1)
@@ -16,6 +17,7 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}) {
             : ''
     )
 
+    // 兼容常见后端返回结构，统一转换为 { rows, total }
     const normalizeListResult = (res) => {
         if (Array.isArray(res)) {
             return {
@@ -33,6 +35,7 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}) {
         }
     }
 
+    // 拉取列表数据：拼接查询条件、分页和排序参数
     const fetchData = async () => {
         loading.value = true
         try {
@@ -58,16 +61,19 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}) {
         }
     }
 
+    // 搜索时回到第一页，避免页码越界
     const handleSearch = () => {
         currentPage.value = 1
         fetchData()
     }
 
+    // 切换页码后重新查询
     const handleCurrentChange = (page) => {
         currentPage.value = page
         fetchData()
     }
 
+    // 切换每页条数后回到第一页
     const handleSizeChange = (size) => {
         pageSize.value = size
         currentPage.value = 1
@@ -86,6 +92,7 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}) {
         fetchData()
     }
 
+    // 通用删除确认流程：确认 -> 调用删除接口 -> 成功后刷新列表
     const handleDelete = (index, row, options = {}, callback) => {
         const { nameField = '', confirmText = '确定要删除', onSuccess } = options
         const msg = row?.[nameField] ? `【${row?.[nameField]}】` : ''
@@ -118,11 +125,31 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}) {
         })
     }
 
+
+    // 用于收集列表选中的行对象
+    const selectedRows = ref([])
+
+    // 勾选行选择框
+    const handleSelectionChange = (rows) => {
+        selectedRows.value = rows
+    }
+
+    // 是否只选中一条记录
+    const checkSingleSelect = () => {
+        return selectedRows.value.length !== 1
+    }
+
+    // 是否选中记录
+    const checkHasSelect = () => {
+        return selectedRows.value.length !== 0
+    }
+
+    // 组件挂载后自动加载数据
     onMounted(fetchData)
+
 
     return {
         tableData,
-        loading,
         currentPage,
         pageSize,
         total,
@@ -132,6 +159,10 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}) {
         handleDelete,
         handleCurrentChange,
         handleSizeChange,
-        handleSortChange
+        handleSortChange,
+        handleSelectionChange,
+        checkSingleSelect,
+        checkHasSelect,
+        selectedRows
     }
 }
