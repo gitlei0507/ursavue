@@ -154,7 +154,6 @@
         pageSize,
         total,
         handleSearch,
-        handleDelete,
         handleCurrentChange,
         handleSizeChange,
         handleSortChange,
@@ -168,9 +167,11 @@
     // 计算序号
     const calcIndex = (index) => (currentPage.value - 1) * pageSize.value + index + 1
 
-    const emit = defineEmits((event) => {
-        return typeof event === 'string'
-    })
+    const emit = defineEmits([
+        'view',
+        'edit',
+        'delete',
+    ])
 
     const slots = useSlots()
 
@@ -310,12 +311,11 @@
             return
         }
 
-        emit('action', payload)
         emit(button.event ?? button.key ?? 'action', payload)
     }
 
     // 对外暴露方法
-    defineExpose({ handleSearch, handleDelete, checkSingleSelect, checkHasSelect, selectedRows })
+    defineExpose({ handleSearch, checkSingleSelect, checkHasSelect, selectedRows })
 
 </script>
 

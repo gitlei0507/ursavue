@@ -92,39 +92,6 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}) {
         fetchData()
     }
 
-    // 通用删除确认流程：确认 -> 调用删除接口 -> 成功后刷新列表
-    const handleDelete = (index, row, options = {}, callback) => {
-        const { nameField = '', confirmText = '确定要删除', onSuccess } = options
-        const msg = row?.[nameField] ? `【${row?.[nameField]}】` : ''
-
-        ElMessageBox.confirm(
-            `${confirmText}${msg}吗？`,
-            '警告',
-            {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-            }
-        ).then(async () => {
-            try {
-                const res = await callback(row)
-                if (res === 1) {
-                    ElMessage.success('删除成功')
-                    if (typeof onSuccess === 'function') {
-                        onSuccess(row)
-                    }
-                    handleSearch()
-                } else {
-                    ElMessage.error('删除失败')
-                }
-            } catch (error) {
-                ElMessage.error(`删除失败：${error.message || error}`)
-            }
-        }).catch(() => {
-            // 点击取消
-        })
-    }
-
 
     // 用于收集列表选中的行对象
     const selectedRows = ref([])
@@ -156,7 +123,6 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}) {
         searchForm,
         fetchData,
         handleSearch,
-        handleDelete,
         handleCurrentChange,
         handleSizeChange,
         handleSortChange,

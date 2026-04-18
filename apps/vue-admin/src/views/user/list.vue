@@ -112,7 +112,7 @@
     import { useUser } from '@/composables/useUser';
     import router from '@/router';
     import { Avatar, Edit, Lock, Message, Plus, Star, User, UserFilled } from '@element-plus/icons-vue';
-    import { UrsaSearch, UrsaTable } from 'ursacomponents';
+    import { UrsaMessageBox, UrsaSearch, UrsaTable } from 'ursacomponents';
     import { reactive, ref } from 'vue';
 
     const ursaTableRef = ref(null)
@@ -253,8 +253,27 @@
     }
 
     // 删除
-    const handleDeleteAction = ({ row, index }) => {
-        ursaTableRef.value.handleDelete(index, row, deleteUser)
+    const handleDeleteAction = async ({ row }) => {
+        const confirmed = await UrsaMessageBox({
+            message: '你确定要删除吗？',
+        })
+
+        if (!confirmed) {
+            return
+        }
+        console.log('##', row);
+
+        try {
+            const res = await deleteUser(row)
+            if (res === 1) {
+                ElMessage.success('删除成功')
+                handleSearch()
+            } else {
+                ElMessage.error('删除失败')
+            }
+        } catch (error) {
+            ElMessage.error(`删除失败：${error.message || error}`)
+        }
     }
 
 
