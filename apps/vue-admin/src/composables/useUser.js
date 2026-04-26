@@ -1,4 +1,3 @@
-import router from "@/router"
 import { ElMessage } from "element-plus"
 import { nextTick, reactive, ref } from "vue"
 
@@ -49,27 +48,27 @@ export function useUser(createUser, updateUser, handleSearch) {
 
     // 打开修改弹窗并重置表单
     const openEditDialog = (row) => {
-        // isEdit.value = true
-        // isView.value = false
-        // userForm.id = row.id || ''
-        // userForm.uid = row.uid || ''
-        // userForm.username = row.username || ''
-        // userForm.password = row.password || ''
-        // userForm.email = row.email || ''
-        // userForm.role = row.role || ''
-        // dialogVisible.value = true
-        // nextTick(() => userFormRef.value?.clearValidate())
+        isEdit.value = true
+        isView.value = false
+        userForm.id = row.id || ''
+        userForm.uid = row.uid || ''
+        userForm.username = row.username || ''
+        userForm.password = row.password || ''
+        userForm.email = row.email || ''
+        userForm.role = row.role || ''
+        dialogVisible.value = true
+        nextTick(() => userFormRef.value?.clearValidate())
 
-        if (!row?.id) {
-            ElMessage.warning('未获取到用户ID')
-            return
-        }
+        // if (!row?.id) {
+        //     ElMessage.warning('未获取到用户ID')
+        //     return
+        // }
 
-        // 通过路由跳转到用户编辑标签
-        router.push({
-            path: '/user/edit',
-            query: { id: String(row.id) }
-        })
+        // // 通过路由跳转到用户编辑标签
+        // router.push({
+        //     path: '/user/edit',
+        //     query: { id: String(row.id) }
+        // })
     }
 
     // 打开查看弹窗

@@ -15,95 +15,10 @@
     </div>
 
 
-    <!-- 用户表单弹窗 -->
-    <el-dialog v-model="dialogVisible" :title="isView ? '查看用户' : (isEdit ? '编辑用户' : '新增用户')" width="560px"
-        :close-on-click-modal="false" :destroy-on-close="true" draggable>
-        <el-form :model="userForm" ref="userFormRef" :rules="rules" label-width="90px" class="user-form">
-            <el-form-item label="ID" prop="id" v-show="false">
-                <el-input v-model="userForm.id" />
-            </el-form-item>
-
-            <el-form-item label="用户ID" prop="uid">
-                <el-input v-model="userForm.uid" placeholder="请输入用户ID" :readonly="isView" clearable size="large">
-                    <template #prefix>
-                        <el-icon>
-                            <User />
-                        </el-icon>
-                    </template>
-                </el-input>
-            </el-form-item>
-
-            <el-form-item label="用户名" prop="username">
-                <el-input v-model="userForm.username" placeholder="请输入用户名" :readonly="isView" clearable size="large">
-                    <template #prefix>
-                        <el-icon>
-                            <UserFilled />
-                        </el-icon>
-                    </template>
-                </el-input>
-            </el-form-item>
-
-            <el-form-item label="密码" prop="password">
-                <el-input v-model="userForm.password" type="password" placeholder="请输入密码" :readonly="isView"
-                    show-password clearable size="large">
-                    <template #prefix>
-                        <el-icon>
-                            <Lock />
-                        </el-icon>
-                    </template>
-                </el-input>
-            </el-form-item>
-
-            <el-form-item label="邮箱" prop="email">
-                <el-input v-model="userForm.email" placeholder="请输入邮箱地址" :readonly="isView" clearable size="large">
-                    <template #prefix>
-                        <el-icon>
-                            <Message />
-                        </el-icon>
-                    </template>
-                </el-input>
-            </el-form-item>
-
-            <el-form-item label="角色" prop="role">
-                <el-select v-model="userForm.role" placeholder="请选择角色" :disabled="isView" style="width: 100%"
-                    size="large">
-                    <template #prefix>
-                        <el-icon>
-                            <Avatar />
-                        </el-icon>
-                    </template>
-                    <el-option label="管理员" value="1">
-                        <el-icon style="vertical-align: middle; margin-right: 8px;">
-                            <Star />
-                        </el-icon>
-                        <span>管理员</span>
-                    </el-option>
-                    <el-option label="普通用户" value="2">
-                        <el-icon style="vertical-align: middle; margin-right: 8px;">
-                            <User />
-                        </el-icon>
-                        <span>普通用户</span>
-                    </el-option>
-                </el-select>
-            </el-form-item>
-        </el-form>
-
-        <template #footer>
-            <div class="dialog-footer">
-                <el-button @click="dialogVisible = false" size="large" v-if="isView">
-                    关闭
-                </el-button>
-                <template v-else>
-                    <el-button @click="dialogVisible = false" size="large">
-                        取消
-                    </el-button>
-                    <el-button type="primary" @click="submitForm" :loading="submitLoading" size="large">
-                        {{ submitLoading ? '提交中...' : '确定' }}
-                    </el-button>
-                </template>
-            </div>
-        </template>
-    </el-dialog>
+    <!-- 用户表单 -->
+    <UrsaForm ref="userFormRef" v-model="dialogVisible" :title="isView ? '查看用户' : (isEdit ? '编辑用户' : '新增用户')"
+        :model="userForm" :fields="userFormFields" :rules="rules" :readonly="isView" :loading="submitLoading"
+        @submit="submitForm" />
 
 </template>
 
@@ -111,12 +26,13 @@
     import { createUser, deleteUser, list, updateUser } from '@/api/user';
     import { useUser } from '@/composables/useUser';
     import router from '@/router';
-    import { Avatar, Lock, Message, Star, User, UserFilled } from '@element-plus/icons-vue';
-    import { UrsaMessageBox, UrsaSearch, UrsaTable } from 'ursacomponents';
+    import { Edit, Plus } from '@element-plus/icons-vue';
+    import { UrsaForm, UrsaMessageBox, UrsaSearch, UrsaTable } from 'ursacomponents';
     import { reactive, ref } from 'vue';
 
     const ursaTableRef = ref(null)
 
+    // 查询对象
     const searchForm = reactive({
         username: '',
         email: '',
@@ -217,6 +133,50 @@
                 2: { label: '普通用户', type: 'success', effect: 'dark' }
             },
             tagDefault: ({ value }) => ({ label: value ?? '-' })
+        }
+    ]
+
+    // 表单字段
+    const userFormFields = [
+        {
+            type: 'input',
+            prop: 'id',
+            label: 'ID',
+            hidden: true
+        },
+        {
+            type: 'input',
+            prop: 'uid',
+            label: '用户ID',
+            placeholder: '请输入用户ID'
+        },
+        {
+            type: 'input',
+            prop: 'username',
+            label: '用户名',
+            placeholder: '请输入用户名'
+        },
+        {
+            type: 'password',
+            prop: 'password',
+            label: '密码',
+            placeholder: '请输入密码'
+        },
+        {
+            type: 'input',
+            prop: 'email',
+            label: '邮箱',
+            placeholder: '请输入邮箱地址'
+        },
+        {
+            type: 'select',
+            prop: 'role',
+            label: '角色',
+            placeholder: '请选择角色',
+            options: [
+                { label: '管理员', value: '1' },
+                { label: '普通用户', value: '2' }
+            ]
         }
     ]
 
