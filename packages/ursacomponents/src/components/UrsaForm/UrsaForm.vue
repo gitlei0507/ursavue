@@ -4,11 +4,9 @@
         <el-form ref="formRef" :model="model" :rules="rules" :label-width="labelWidth" class="ursa-form">
             <template v-for="field in fields" :key="field.prop || field.label">
                 <el-form-item v-if="!field.hidden" :label="field.label" :prop="field.prop">
-                    <el-input v-if="field.type === 'input' || field.type === 'password'" v-model="model[field.prop]"
-                        :type="field.type === 'password' ? 'password' : 'text'"
-                        :placeholder="field.placeholder || `请输入${field.label || ''}`" :readonly="readonly"
-                        :clearable="field.clearable ?? true" :show-password="field.type === 'password'"
-                        :size="field.size ?? 'large'" v-bind="field.componentProps" />
+                    <!-- 单行输入框 -->
+                    <UrsaInput v-if="field.type === 'input' || field.type === 'password'" :model="model" :field="field"
+                        :readonly="readonly" />
 
                     <el-select v-else-if="field.type === 'select'" v-model="model[field.prop]"
                         :placeholder="field.placeholder || `请选择${field.label || ''}`" :disabled="readonly"
@@ -38,6 +36,7 @@
 
 <script setup>
     import { computed, ref } from 'vue'
+    import UrsaInput from '../UrsaInput/UrsaInput.vue'
 
     defineOptions({
         name: 'UrsaForm'
@@ -198,29 +197,4 @@
         margin-bottom: 22px;
     }
 
-    :deep(.el-input__prefix) {
-        display: flex;
-        align-items: center;
-    }
-
-    :deep(.el-select .el-input__prefix) {
-        left: 8px;
-    }
-
-    :deep(.el-input[readonly] .el-input__wrapper) {
-        background-color: #f5f7fa;
-        box-shadow: 0 0 0 1px #e4e7ed inset;
-        cursor: default;
-    }
-
-    :deep(.el-input[readonly] .el-input__inner) {
-        color: #606266;
-        cursor: default;
-    }
-
-    :deep(.el-select.is-disabled .el-input__wrapper) {
-        background-color: #f5f7fa;
-        box-shadow: 0 0 0 1px #e4e7ed inset;
-        cursor: default;
-    }
 </style>

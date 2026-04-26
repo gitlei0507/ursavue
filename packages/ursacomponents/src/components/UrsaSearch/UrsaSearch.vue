@@ -2,10 +2,9 @@
     <el-card class="search-card" shadow="never">
         <el-form :inline="inline" class="search-form">
             <template v-if="fields.length > 0">
-                <!-- 单行输入框 -->
                 <el-form-item v-for="field in fields" :key="field.prop || field.label" :label="field.label">
                     <!-- 单行输入框 -->
-                    <UrsaInput v-if="field.type === 'input'" :field="field" :model="model" />
+                    <UrsaInput v-if="field.type === 'input'" :field="field" :model="model" source="search" />
 
                     <!-- 下拉框     -->
                     <UrsaSelect v-else-if="field.type === 'select'" :field="field" :model="model" @change="field.change"

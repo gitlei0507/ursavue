@@ -24,14 +24,14 @@
 
 <script setup>
     import { createUser, deleteUser, listUser, updateUser } from '@/api/user';
-import router from '@/router';
-import { useUser } from '@/views/user/composables/useUser';
-import { formFields, userForm } from '@/views/user/config/form.config';
-import { searchFields, searchForm } from '@/views/user/config/search.config';
-import { columnFields } from '@/views/user/config/table.config';
-import { Edit, Plus } from '@element-plus/icons-vue';
-import { UrsaForm, UrsaSearch, UrsaTable } from 'ursacomponents';
-import { ref } from 'vue';
+    import router from '@/router';
+    import { useUser } from '@/views/user/composables/useUser';
+    import { formFields, userForm } from '@/views/user/config/form.config';
+    import { searchFields, searchForm } from '@/views/user/config/search.config';
+    import { columnFields } from '@/views/user/config/table.config';
+    import { Edit, Plus } from '@element-plus/icons-vue';
+    import { UrsaForm, UrsaSearch, UrsaTable } from 'ursacomponents';
+    import { ref } from 'vue';
 
     const ursaTableRef = ref(null)
 

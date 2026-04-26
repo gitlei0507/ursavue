@@ -23,6 +23,7 @@ export const formFields = [
         type: 'input',
         prop: 'uid',
         label: '用户ID',
+        icon: 'User'
     },
     {
         type: 'input',
@@ -33,11 +34,12 @@ export const formFields = [
         type: 'password',
         prop: 'password',
         label: '密码',
+        icon: 'Lock'
     },
     {
         type: 'input',
         prop: 'email',
-        label: '邮箱',
+        label: '邮箱'
     },
     {
         type: 'select',
