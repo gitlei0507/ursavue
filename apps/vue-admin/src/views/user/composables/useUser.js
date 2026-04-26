@@ -24,57 +24,31 @@ export function useUser(createUser, updateUser, deleteUser, handleSearch) {
         role: [{ required: true, message: '请选择角色', trigger: 'change' }]
     }
 
-    // 打开新增弹窗并重置表单
-    const openAddDialog = () => {
-        isEdit.value = false
-        isView.value = false
-        userForm.id = ''
-        userForm.uid = ''
-        userForm.username = ''
-        userForm.password = ''
-        userForm.email = ''
-        userForm.role = ''
-        dialogVisible.value = true
-        nextTick(() => userFormRef.value.clearValidate())
+    // 赋值
+    const setUserFormData = (data = {}) => {
+        Object.keys(data).forEach(key => {
+            if (key in userForm) {
+                userForm[key] = data[key] ?? ''
+            }
+        })
     }
 
-    // 打开修改弹窗并重置表单
-    const openEditDialog = (row) => {
-        isEdit.value = true
-        isView.value = false
-        userForm.id = row.id || ''
-        userForm.uid = row.uid || ''
-        userForm.username = row.username || ''
-        userForm.password = row.password || ''
-        userForm.email = row.email || ''
-        userForm.role = row.role || ''
+    // 统一处理打开弹窗
+    const openDialog = (edit, view, row) => {
+        setUserFormData(row || {})
+        isEdit.value = edit
+        isView.value = view
         dialogVisible.value = true
-        nextTick(() => userFormRef.value?.clearValidate())
 
-        // if (!row?.id) {
-        //     ElMessage.warning('未获取到用户ID')
-        //     return
-        // }
-
-        // // 通过路由跳转到用户编辑标签
-        // router.push({
-        //     path: '/user/edit',
-        //     query: { id: String(row.id) }
-        // })
+        if (!view) {
+            // 清除校验
+            nextTick(() => userFormRef.value?.clearValidate?.())
+        }
     }
 
-    // 打开查看弹窗
-    const openViewDialog = (row) => {
-        isEdit.value = false
-        isView.value = true
-        userForm.id = row.id || ''
-        userForm.uid = row.uid || ''
-        userForm.username = row.username || ''
-        userForm.password = row.password || ''
-        userForm.email = row.email || ''
-        userForm.role = row.role || ''
-        dialogVisible.value = true
-    }
+    const openAddDialog = () => openDialog(false, false)
+    const openEditDialog = (row) => openDialog(true, false, row)
+    const openViewDialog = (row) => openDialog(false, true, row)
 
     // 删除用户
     const handleDelete = async (row) => {
