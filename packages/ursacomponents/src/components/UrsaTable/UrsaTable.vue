@@ -64,13 +64,15 @@
         </div>
 
         <!-- 分页区域 -->
-        <div class="pagination-container">
-            <div class="pagination-wrapper">
-                <el-pagination :current-page="currentPage" :page-size="pageSize" background
-                    layout="total, sizes, prev, pager, next, jumper" :total="total"
-                    @current-change="handleCurrentChange" @size-change="handleSizeChange" />
+        <template v-if="props.showPagination">
+            <div class="pagination-container">
+                <div class="pagination-wrapper">
+                    <el-pagination :current-page="currentPage" :page-size="pageSize" background
+                        layout="total, sizes, prev, pager, next, jumper" :total="total"
+                        @current-change="handleCurrentChange" @size-change="handleSizeChange" />
+                </div>
             </div>
-        </div>
+        </template>
     </el-card>
 </template>
 
@@ -136,6 +138,16 @@
             type: Boolean,
             default: true
         },
+        // 是否显示分页
+        showPagination: {
+            type: Boolean,
+            default: true
+        },
+        // 默认每页显示数量
+        defaultPageSize: {
+            type: Number,
+            default: 20
+        },
         actionColumn: {
             type: Object,
             default: () => ({
@@ -161,7 +173,7 @@
         checkSingleSelect,
         checkHasSelect,
         selectedRows
-    } = useUrsaTable(props.listFun, props.searchForm, props.defaultSort)
+    } = useUrsaTable(props.listFun, props.searchForm, props.defaultSort, props.showPagination, props.defaultPageSize)
 
 
     // 计算序号

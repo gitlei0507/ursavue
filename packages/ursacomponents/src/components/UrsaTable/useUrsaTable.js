@@ -1,12 +1,11 @@
-import { ElMessage, ElMessageBox } from 'element-plus'
 import { onMounted, ref } from 'vue'
 
-export function useUrsaTable(apiFn, searchForm, defaultSort = {}) {
+export function useUrsaTable(apiFn, searchForm, defaultSort = {}, showPagination, defaultPageSize) {
     // 表格核心状态：数据、加载、分页
     const tableData = ref([])
     const loading = ref(false)
     const currentPage = ref(1)
-    const pageSize = ref(5)
+    const pageSize = ref(defaultPageSize)
     const total = ref(0)
 
     // defaultSort.order 为 Element Plus 格式(ascending/descending)，需转换为后端格式(asc/desc)
@@ -40,9 +39,12 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}) {
         loading.value = true
         try {
             const payload = {
-                ...searchForm,
-                pageNum: currentPage.value,
-                pageSize: pageSize.value
+                ...searchForm
+            }
+
+            if (showPagination) {
+                payload.pageNum = currentPage.value
+                payload.pageSize = pageSize.value
             }
 
             if (sortField.value && sortOrder.value) {
@@ -52,8 +54,9 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}) {
 
             const res = await apiFn(payload)
             const { rows, total: totalCount } = normalizeListResult(res)
+
             tableData.value = rows
-            total.value = Number(totalCount) || 0
+            total.value = Number(totalCount) || rows.length
         } catch (error) {
             console.error('获取失败：', error)
         } finally {
