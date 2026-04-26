@@ -4,7 +4,7 @@
         <UrsaSearch :model="searchForm" :fields="searchFields" @search="handleSearch" />
 
         <!-- 列表区域 -->
-        <UrsaTable ref="ursaTableRef" :listFun="list" :searchForm="searchForm" :columnFields="columnFields"
+        <UrsaTable ref="ursaTableRef" :listFun="listUser" :searchForm="searchForm" :columnFields="columnFields"
             :defaultSort="{ prop: 'username', order: 'ascending' }" @add="handleAddAction" @view="handleViewAction"
             @edit="handleEditAction" @delete="handleDeleteAction">
             <template #toolbar>
@@ -23,21 +23,21 @@
 </template>
 
 <script setup>
-    import { createUser, deleteUser, list, updateUser } from '@/api/user';
-    import router from '@/router';
-    import { useUser } from '@/views/user/composables/useUser';
-    import { formFields, userForm } from '@/views/user/config/form.config';
-    import { searchFields, searchForm } from '@/views/user/config/search.config';
-    import { columnFields } from '@/views/user/config/table.config';
-    import { Edit, Plus } from '@element-plus/icons-vue';
-    import { UrsaForm, UrsaMessageBox, UrsaSearch, UrsaTable } from 'ursacomponents';
-    import { ref } from 'vue';
+    import { createUser, deleteUser, listUser, updateUser } from '@/api/user';
+import router from '@/router';
+import { useUser } from '@/views/user/composables/useUser';
+import { formFields, userForm } from '@/views/user/config/form.config';
+import { searchFields, searchForm } from '@/views/user/config/search.config';
+import { columnFields } from '@/views/user/config/table.config';
+import { Edit, Plus } from '@element-plus/icons-vue';
+import { UrsaForm, UrsaSearch, UrsaTable } from 'ursacomponents';
+import { ref } from 'vue';
 
     const ursaTableRef = ref(null)
 
     // 查询
     const handleSearch = () => {
-        ursaTableRef.value?.handleSearch?.()
+        ursaTableRef.value.handleSearch()
     }
 
     // 查看
@@ -57,26 +57,7 @@
 
     // 删除
     const handleDeleteAction = async ({ row }) => {
-        const confirmed = await UrsaMessageBox({
-            message: '你确定要删除吗？',
-        })
-
-        if (!confirmed) {
-            return
-        }
-        console.log('##', row);
-
-        try {
-            const res = await deleteUser(row)
-            if (res === 1) {
-                ElMessage.success('删除成功')
-                handleSearch()
-            } else {
-                ElMessage.error('删除失败')
-            }
-        } catch (error) {
-            ElMessage.error(`删除失败：${error.message || error}`)
-        }
+        await handleDelete(row)
     }
 
 
@@ -106,9 +87,10 @@
         openAddDialog,
         openEditDialog,
         openViewDialog,
+        handleDelete,
         submitForm,
         rules
-    } = useUser(createUser, updateUser, handleSearch)
+    } = useUser(createUser, updateUser, deleteUser, handleSearch)
 
 
 

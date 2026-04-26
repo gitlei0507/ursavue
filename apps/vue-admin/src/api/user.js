@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
 // 获取用户列表接口
-export function list(data) {
+export function listUser(data) {
     return request({
         url: '/user/list',
         method: 'post',

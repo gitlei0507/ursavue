@@ -1,9 +1,10 @@
 import { userForm } from '@/views/user/config/form.config'
 import { ElMessage } from "element-plus"
+import { UrsaMessageBox } from 'ursacomponents'
 import { nextTick, ref } from "vue"
 
 
-export function useUser(createUser, updateUser, handleSearch) {
+export function useUser(createUser, updateUser, deleteUser, handleSearch) {
 
     const dialogVisible = ref(false)
     const submitLoading = ref(false)
@@ -75,6 +76,29 @@ export function useUser(createUser, updateUser, handleSearch) {
         dialogVisible.value = true
     }
 
+    // 删除用户
+    const handleDelete = async (row) => {
+        const confirmed = await UrsaMessageBox({
+            message: '你确定要删除吗？',
+        })
+
+        if (!confirmed) {
+            return
+        }
+
+        try {
+            const res = await deleteUser(row)
+            if (res === 1) {
+                ElMessage.success('删除成功')
+                handleSearch()
+            } else {
+                ElMessage.error('删除失败')
+            }
+        } catch (error) {
+            ElMessage.error(`删除失败：${error.message || error}`)
+        }
+    }
+
     // 提交表单
     const submitForm = async () => {
         if (!userFormRef.value) return
@@ -110,6 +134,7 @@ export function useUser(createUser, updateUser, handleSearch) {
         openAddDialog,
         openEditDialog,
         openViewDialog,
+        handleDelete,
         submitForm,
         rules
     }
