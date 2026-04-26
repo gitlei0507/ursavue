@@ -1,5 +1,6 @@
+import { userForm } from '@/views/user/config/form.config'
 import { ElMessage } from "element-plus"
-import { nextTick, reactive, ref } from "vue"
+import { nextTick, ref } from "vue"
 
 
 export function useUser(createUser, updateUser, handleSearch) {
@@ -9,16 +10,6 @@ export function useUser(createUser, updateUser, handleSearch) {
     const userFormRef = ref()
     const isEdit = ref(false)
     const isView = ref(false)
-
-    // 初始化表单数据
-    const userForm = reactive({
-        id: '',
-        uid: '',
-        username: '',
-        password: '',
-        email: '',
-        role: ''
-    })
 
     // 表单校验
     const rules = {
@@ -113,7 +104,6 @@ export function useUser(createUser, updateUser, handleSearch) {
     return {
         dialogVisible,
         submitLoading,
-        userForm,
         userFormRef,
         isEdit,
         isView,

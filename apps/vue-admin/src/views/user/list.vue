@@ -26,7 +26,7 @@
     import { createUser, deleteUser, list, updateUser } from '@/api/user';
     import router from '@/router';
     import { useUser } from '@/views/user/composables/useUser';
-    import { formFields } from '@/views/user/config/form.config';
+    import { formFields, userForm } from '@/views/user/config/form.config';
     import { searchFields, searchForm } from '@/views/user/config/search.config';
     import { columnFields } from '@/views/user/config/table.config';
     import { Edit, Plus } from '@element-plus/icons-vue';
@@ -100,7 +100,6 @@
     const {
         dialogVisible,
         submitLoading,
-        userForm,
         userFormRef,
         isEdit,
         isView,

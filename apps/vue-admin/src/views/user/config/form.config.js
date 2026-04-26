@@ -1,3 +1,16 @@
+import { reactive } from "vue"
+
+// 表单对象
+export const userForm = reactive({
+    id: '',
+    uid: '',
+    username: '',
+    password: '',
+    email: '',
+    role: ''
+})
+
+
 // 表单字段
 export const formFields = [
     {
