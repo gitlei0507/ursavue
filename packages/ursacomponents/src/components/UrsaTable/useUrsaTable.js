@@ -1,11 +1,11 @@
 import { onMounted, ref } from 'vue'
 
-export function useUrsaTable(apiFn, searchForm, defaultSort = {}, showPagination, defaultPageSize) {
+export function useUrsaTable(apiFn, searchForm, defaultSort = {}, showPagination = true, defaultPageSize = 20) {
     // 表格核心状态：数据、加载、分页
     const tableData = ref([])
     const loading = ref(false)
     const currentPage = ref(1)
-    const pageSize = ref(defaultPageSize)
+    const pageSize = ref(Number(defaultPageSize) > 0 ? Number(defaultPageSize) : 20)
     const total = ref(0)
 
     // defaultSort.order 为 Element Plus 格式(ascending/descending)，需转换为后端格式(asc/desc)

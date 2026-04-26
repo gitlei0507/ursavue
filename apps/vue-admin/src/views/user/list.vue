@@ -5,8 +5,8 @@
 
         <!-- 列表区域 -->
         <UrsaTable ref="ursaTableRef" :listFun="list" :searchForm="searchForm" :columnFields="columnFields"
-            :defaultSort="{ prop: 'username', order: 'ascending' }" @view="handleViewAction" @edit="handleEditAction"
-            @delete="handleDeleteAction">
+            :defaultSort="{ prop: 'username', order: 'ascending' }" @add="handleAddAction" @view="handleViewAction"
+            @edit="handleEditAction" @delete="handleDeleteAction">
             <template #toolbar>
                 <el-button type="primary" @click="openAddDialog" :icon="Plus">新增</el-button>
                 <el-button type="warning" @click="openNewEdit" :icon="Edit">新开标签编辑</el-button>
@@ -111,7 +111,7 @@
     import { createUser, deleteUser, list, updateUser } from '@/api/user';
     import { useUser } from '@/composables/useUser';
     import router from '@/router';
-    import { Avatar, Edit, Lock, Message, Plus, Star, User, UserFilled } from '@element-plus/icons-vue';
+    import { Avatar, Lock, Message, Star, User, UserFilled } from '@element-plus/icons-vue';
     import { UrsaMessageBox, UrsaSearch, UrsaTable } from 'ursacomponents';
     import { reactive, ref } from 'vue';
 
@@ -245,6 +245,11 @@
     // 查看
     const handleViewAction = ({ row }) => {
         openViewDialog(row)
+    }
+
+    // 新增
+    const handleAddAction = () => {
+        openAddDialog()
     }
 
     // 编辑

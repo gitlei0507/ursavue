@@ -1,6 +1,6 @@
 <template>
     <el-card class="table-card" shadow="never">
-        <div v-if="$slots.toolbar" class="toolbar">
+        <div v-if="props.showToolbar && $slots.toolbar" class="toolbar">
             <slot name="toolbar" />
         </div>
 
@@ -147,6 +147,11 @@
         defaultPageSize: {
             type: Number,
             default: 20
+        },
+        // 是否显示顶部操作栏
+        showToolbar: {
+            type: Boolean,
+            default: true
         },
         actionColumn: {
             type: Object,
