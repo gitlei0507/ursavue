@@ -1,3 +1,4 @@
+import { createRules } from '@/utils/form/formRules'
 import { userForm } from '@/views/user/config/form.config'
 import { ElMessage } from "element-plus"
 import { UrsaMessageBox } from 'ursacomponents'
@@ -13,16 +14,13 @@ export function useUser(createUser, updateUser, deleteUser, handleSearch) {
     const isView = ref(false)
 
     // 表单校验
-    const rules = {
-        uid: [{ required: true, message: '请输入用户ID', trigger: 'blur' }],
-        username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-        email: [
-            { required: true, message: '请输入邮箱', trigger: 'blur' },
-            { type: 'email', message: '邮箱格式不正确', trigger: ['blur', 'change'] }
-        ],
-        role: [{ required: true, message: '请选择角色', trigger: 'change' }]
-    }
+    const rules = createRules({
+        uid: { required: '请输入用户ID' },
+        username: { required: '请输入用户名' },
+        password: { required: '请输入密码' },
+        email: { required: '请输入邮箱', email: '邮箱格式不正确' },
+        role: { required: '请选择角色', trigger: 'change' }
+    })
 
     // 赋值
     const setUserFormData = (data = {}) => {
