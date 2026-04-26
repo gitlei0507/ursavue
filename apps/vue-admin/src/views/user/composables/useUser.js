@@ -1,3 +1,4 @@
+import { setFormData } from '@/utils/form/formData'
 import { createRules } from '@/utils/form/formRules'
 import { userForm } from '@/views/user/config/form.config'
 import { ElMessage } from "element-plus"
@@ -22,18 +23,10 @@ export function useUser(createUser, updateUser, deleteUser, handleSearch) {
         role: { required: '请选择角色', trigger: 'change' }
     })
 
-    // 赋值
-    const setUserFormData = (data = {}) => {
-        Object.keys(data).forEach(key => {
-            if (key in userForm) {
-                userForm[key] = data[key] ?? ''
-            }
-        })
-    }
-
     // 统一处理打开弹窗
     const openDialog = (edit, view, row) => {
-        setUserFormData(row || {})
+        // 表单赋值
+        setFormData(row, userForm)
         isEdit.value = edit
         isView.value = view
         dialogVisible.value = true
