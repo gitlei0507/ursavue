@@ -178,4 +178,49 @@
         justify-content: flex-end;
         gap: 12px;
     }
+
+    :deep(.el-dialog__header) {
+        padding: 20px 20px 15px;
+        border-bottom: 1px solid #f0f0f0;
+        margin-right: 0;
+    }
+
+    :deep(.el-dialog__body) {
+        padding: 20px 20px 10px;
+    }
+
+    :deep(.el-dialog__footer) {
+        padding: 15px 20px 20px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    :deep(.el-form-item) {
+        margin-bottom: 22px;
+    }
+
+    :deep(.el-input__prefix) {
+        display: flex;
+        align-items: center;
+    }
+
+    :deep(.el-select .el-input__prefix) {
+        left: 8px;
+    }
+
+    :deep(.el-input[readonly] .el-input__wrapper) {
+        background-color: #f5f7fa;
+        box-shadow: 0 0 0 1px #e4e7ed inset;
+        cursor: default;
+    }
+
+    :deep(.el-input[readonly] .el-input__inner) {
+        color: #606266;
+        cursor: default;
+    }
+
+    :deep(.el-select.is-disabled .el-input__wrapper) {
+        background-color: #f5f7fa;
+        box-shadow: 0 0 0 1px #e4e7ed inset;
+        cursor: default;
+    }
 </style>

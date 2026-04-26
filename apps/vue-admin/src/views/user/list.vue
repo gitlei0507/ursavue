@@ -35,29 +35,10 @@
 
     const ursaTableRef = ref(null)
 
-
-
-
+    // 查询
     const handleSearch = () => {
         ursaTableRef.value?.handleSearch?.()
     }
-
-
-
-
-    const {
-        dialogVisible,
-        submitLoading,
-        userForm,
-        userFormRef,
-        isEdit,
-        isView,
-        openAddDialog,
-        openEditDialog,
-        openViewDialog,
-        submitForm,
-        rules
-    } = useUser(createUser, updateUser, handleSearch)
 
     // 查看
     const handleViewAction = ({ row }) => {
@@ -115,6 +96,23 @@
         })
     }
 
+
+    const {
+        dialogVisible,
+        submitLoading,
+        userForm,
+        userFormRef,
+        isEdit,
+        isView,
+        openAddDialog,
+        openEditDialog,
+        openViewDialog,
+        submitForm,
+        rules
+    } = useUser(createUser, updateUser, handleSearch)
+
+
+
 </script>
 
 <style scoped>
@@ -126,73 +124,5 @@
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-    }
-
-    :deep(.el-button + .el-button) {
-        margin-left: 8px;
-    }
-
-    /* 弹窗样式 */
-    .user-form {
-        padding: 10px 20px 0;
-    }
-
-    .dialog-footer {
-        display: flex;
-        justify-content: flex-end;
-        gap: 12px;
-    }
-
-    :deep(.el-dialog__header) {
-        padding: 20px 20px 15px;
-        border-bottom: 1px solid #f0f0f0;
-        margin-right: 0;
-    }
-
-    :deep(.el-dialog__body) {
-        padding: 20px 20px 10px;
-    }
-
-    :deep(.el-dialog__footer) {
-        padding: 15px 20px 20px;
-        border-top: 1px solid #f0f0f0;
-    }
-
-    :deep(.el-form-item) {
-        margin-bottom: 22px;
-    }
-
-    :deep(.el-input__prefix) {
-        display: flex;
-        align-items: center;
-    }
-
-    :deep(.el-select .el-input__prefix) {
-        left: 8px;
-    }
-
-    /* 只读模式样式 */
-    :deep(.el-input[readonly] .el-input__wrapper) {
-        background-color: #f5f7fa;
-        box-shadow: 0 0 0 1px #e4e7ed inset;
-        cursor: default;
-    }
-
-    :deep(.el-input[readonly] .el-input__inner) {
-        color: #606266;
-        cursor: default;
-    }
-
-    :deep(.el-select.is-disabled .el-input__wrapper) {
-        background-color: #f5f7fa;
-        box-shadow: 0 0 0 1px #e4e7ed inset;
-        cursor: default;
-    }
-
-    /* 禁用 el-tag 过渡动画 */
-    :deep(.el-tag) {
-        transition: none !important;
-        min-width: 80px;
-        justify-content: center;
     }
 </style>

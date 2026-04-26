@@ -78,8 +78,8 @@
 
 <script setup>
     import { Delete, Edit, View } from '@element-plus/icons-vue'
-    import { computed, useSlots } from 'vue'
-    import { useUrsaTable } from './useUrsaTable.js'
+import { computed, useSlots } from 'vue'
+import { useUrsaTable } from './useUrsaTable.js'
 
 
     defineOptions({
@@ -393,5 +393,11 @@
 
     :deep(.el-button + .el-button) {
         margin-left: 8px;
+    }
+
+    :deep(.el-tag) {
+        transition: none !important;
+        min-width: 80px;
+        justify-content: center;
     }
 </style>
