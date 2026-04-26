@@ -17,163 +17,25 @@
 
     <!-- 用户表单 -->
     <UrsaForm ref="userFormRef" v-model="dialogVisible" :title="isView ? '查看用户' : (isEdit ? '编辑用户' : '新增用户')"
-        :model="userForm" :fields="userFormFields" :rules="rules" :readonly="isView" :loading="submitLoading"
+        :model="userForm" :fields="formFields" :rules="rules" :readonly="isView" :loading="submitLoading"
         @submit="submitForm" />
 
 </template>
 
 <script setup>
     import { createUser, deleteUser, list, updateUser } from '@/api/user';
-    import { useUser } from '@/composables/useUser';
     import router from '@/router';
+    import { useUser } from '@/views/user/composables/useUser';
+    import { formFields } from '@/views/user/config/form.config';
+    import { searchFields, searchForm } from '@/views/user/config/search.config';
+    import { columnFields } from '@/views/user/config/table.config';
     import { Edit, Plus } from '@element-plus/icons-vue';
     import { UrsaForm, UrsaMessageBox, UrsaSearch, UrsaTable } from 'ursacomponents';
-    import { reactive, ref } from 'vue';
+    import { ref } from 'vue';
 
     const ursaTableRef = ref(null)
 
-    // 查询对象
-    const searchForm = reactive({
-        username: '',
-        email: '',
-        role: '',
-        terminal: '',
-        cttimestart: '',
-        cttimeend: '',
-        uptimestart: '',
-        uptimeend: ''
 
-    })
-
-    // 查询字段配置
-    const searchFields = [
-        {
-            type: 'input',
-            prop: 'username',
-            label: '姓名'
-        },
-        {
-            type: 'input',
-            prop: 'email',
-            label: '邮箱'
-        },
-        {
-            type: 'select',
-            prop: 'role',
-            label: '角色',
-            options: [
-                { label: '系统管理员', value: '1' },
-                { label: '普通用户', value: '2' },
-            ]
-        },
-        {
-            type: 'treeselect',
-            prop: 'terminal',
-            label: '类型',
-            data: [
-                {
-                    value: 'root',
-                    label: '资产类型',
-                    isFolderOpened: true,
-                    children: [
-                        {
-                            value: 'camera',
-                            label: '网络设备',
-                            isFolderOpened: true,
-                            children: [
-                                { value: 'networkcamera', label: '网络摄像机', isFolderOpened: false },
-                                { value: 'networkdisk', label: '网络硬盘录像机', isFolderOpened: false },
-                            ],
-                        },
-                        {
-                            value: 'security',
-                            label: '安全设备',
-                            isFolderOpened: true
-                        },
-                    ],
-                },
-            ]
-        },
-        {
-            type: 'datetime',
-            prop: 'cttimestart',
-            label: '创建时间开始',
-        },
-        {
-            type: 'date',
-            prop: 'cttimeend',
-            label: '创建时间结束',
-        },
-        {
-            type: 'datetimerange',
-            prop: ['uptimestart', 'uptimeend'],
-            label: '更新',
-        }
-    ]
-
-    // 列表字段配置
-    const columnFields = [
-        {
-            prop: 'username',
-            label: '姓名',
-            minWidth: '200',
-            valueAlign: 'left'
-        },
-        {
-            prop: 'email',
-            label: '邮箱',
-            showOverflowTooltip: true
-        },
-        {
-            prop: 'role',
-            label: '角色',
-            minWidth: '300',
-            tagMap: {
-                1: { label: '管理员', type: 'danger', effect: 'dark' },
-                2: { label: '普通用户', type: 'success', effect: 'dark' }
-            },
-            tagDefault: ({ value }) => ({ label: value ?? '-' })
-        }
-    ]
-
-    // 表单字段
-    const userFormFields = [
-        {
-            type: 'input',
-            prop: 'id',
-            label: 'ID',
-            hidden: true
-        },
-        {
-            type: 'input',
-            prop: 'uid',
-            label: '用户ID',
-        },
-        {
-            type: 'input',
-            prop: 'username',
-            label: '用户名',
-        },
-        {
-            type: 'password',
-            prop: 'password',
-            label: '密码',
-        },
-        {
-            type: 'input',
-            prop: 'email',
-            label: '邮箱',
-        },
-        {
-            type: 'select',
-            prop: 'role',
-            label: '角色',
-            options: [
-                { label: '管理员', value: '1' },
-                { label: '普通用户', value: '2' }
-            ]
-        }
-    ]
 
 
     const handleSearch = () => {
