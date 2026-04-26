@@ -1,8 +1,7 @@
 <template>
-    <el-select :model-value="getValue(field.prop)" @update:model-value="(value) => setValue(field.prop, value)"
-        :placeholder="field.placeholder || `请选择${field.label || ''}`" :clearable="field.clearable ?? true"
-        :multiple="field.multiple ?? false" :filterable="field.filterable ?? true" :class="field.class || '!w-48'"
-        v-bind="field.componentProps" @change="handleChange" @blur="handleBlur">
+    <el-select v-model="model[field.prop]" :placeholder="field.placeholder || `请选择${field.label || ''}`"
+        :clearable="field.clearable ?? true" :multiple="field.multiple ?? false" :filterable="field.filterable ?? true"
+        :class="field.class || '!w-48'" v-bind="field.componentProps" @change="handleChange" @blur="handleBlur">
         <slot name="option">
             <el-option v-for="option in field.options || []" :key="option.value" :label="option.label"
                 :value="option.value" :disabled="option.disabled ?? false" />
@@ -11,7 +10,6 @@
 </template>
 
 <script setup>
-    import { useFieldModel } from '../../utils/model/useFieldModel';
 
     defineOptions({
         name: 'UrsaSelect',
@@ -30,7 +28,6 @@
         },
     })
 
-    const { getValue, setValue } = useFieldModel(props.model)
 
     const handleChange = (value) => {
         emit('change', value)

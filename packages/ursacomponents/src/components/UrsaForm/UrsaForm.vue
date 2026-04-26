@@ -4,16 +4,13 @@
         <el-form ref="formRef" :model="model" :rules="rules" :label-width="labelWidth" class="ursa-form">
             <template v-for="field in fields" :key="field.prop || field.label">
                 <el-form-item v-if="!field.hidden" :label="field.label" :prop="field.prop">
-                    <el-input v-if="field.type === 'input' || field.type === 'password'"
-                        :model-value="model[field.prop]"
-                        @update:model-value="(value) => setFieldValue(field.prop, value)"
+                    <el-input v-if="field.type === 'input' || field.type === 'password'" v-model="model[field.prop]"
                         :type="field.type === 'password' ? 'password' : 'text'"
                         :placeholder="field.placeholder || `请输入${field.label || ''}`" :readonly="readonly"
                         :clearable="field.clearable ?? true" :show-password="field.type === 'password'"
                         :size="field.size ?? 'large'" v-bind="field.componentProps" />
 
-                    <el-select v-else-if="field.type === 'select'" :model-value="model[field.prop]"
-                        @update:model-value="(value) => setFieldValue(field.prop, value)"
+                    <el-select v-else-if="field.type === 'select'" v-model="model[field.prop]"
                         :placeholder="field.placeholder || `请选择${field.label || ''}`" :disabled="readonly"
                         :size="field.size ?? 'large'" style="width: 100%" v-bind="field.componentProps">
                         <el-option v-for="option in field.options || []" :key="option.value" :label="option.label"
@@ -139,14 +136,6 @@
         set: (value) => emit('update:modelValue', value)
     })
 
-    // 按字段配置写回表单模型，避免模板里直接修改对象结构。
-    const setFieldValue = (prop, value) => {
-        if (!prop || !props.model) {
-            return
-        }
-        props.model[prop] = value
-    }
-
     // 对外统一校验入口，返回布尔值，便于父组件直接判断提交条件。
     const validate = async () => {
         if (!formRef.value) {
@@ -172,7 +161,7 @@
         emit('submit')
     }
 
-    // 暴露基础表单能力，供父组件在打开弹窗后手动清理校验状态。
+    // 暴露给父组件的能力
     defineExpose({
         validate,
         clearValidate

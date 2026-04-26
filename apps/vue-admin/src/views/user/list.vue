@@ -148,31 +148,26 @@
             type: 'input',
             prop: 'uid',
             label: '用户ID',
-            placeholder: '请输入用户ID'
         },
         {
             type: 'input',
             prop: 'username',
             label: '用户名',
-            placeholder: '请输入用户名'
         },
         {
             type: 'password',
             prop: 'password',
             label: '密码',
-            placeholder: '请输入密码'
         },
         {
             type: 'input',
             prop: 'email',
             label: '邮箱',
-            placeholder: '请输入邮箱地址'
         },
         {
             type: 'select',
             prop: 'role',
             label: '角色',
-            placeholder: '请选择角色',
             options: [
                 { label: '管理员', value: '1' },
                 { label: '普通用户', value: '2' }

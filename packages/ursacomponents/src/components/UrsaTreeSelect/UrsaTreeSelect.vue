@@ -1,6 +1,5 @@
 <template>
-    <el-tree-select :data="field.data" :model-value="getValue(field.prop)"
-        @update:model-value="(value) => setValue(field.prop, value)"
+    <el-tree-select :data="field.data" v-model="model[field.prop]"
         :placeholder="field.placeholder || `请选择${field.label || ''}`" :class="field.class ?? '!w-48'"
         :filterable="field.filterable ?? true" :show-checkbox="field.showCheckbox ?? true"
         :check-strictly="field.checkStrictly ?? true" :multiple="field.multiple ?? false"
@@ -20,7 +19,6 @@
 
 <script setup>
 
-    import { useFieldModel } from '../../utils/model/useFieldModel'
 
     defineOptions({
         name: 'UrsaTreeSelect',
@@ -37,7 +35,6 @@
         }
     })
 
-    const { getValue, setValue } = useFieldModel(props.model)
 
 
     // 获取树节点主键字段，优先读取组件透传配置，未配置时回退到 value。
