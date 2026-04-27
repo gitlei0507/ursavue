@@ -35,14 +35,14 @@ export function createRules(ruleConfigs) {
         if (config.min !== undefined) {
             fieldRules.push({
                 min: config.min,
-                message: config.minMessage || `长度不能少于 ${config.min} 位`,
+                message: config.minMessage || `长度不能少于 ${config.min} 字符`,
                 trigger: 'blur'
             })
         }
         if (config.max !== undefined) {
             fieldRules.push({
                 max: config.max,
-                message: config.maxMessage || `长度不能超过 ${config.max} 位`,
+                message: config.maxMessage || `长度不能超过 ${config.max} 字符`,
                 trigger: 'blur'
             })
         }
