@@ -8,12 +8,9 @@
                     <UrsaInput v-if="field.type === 'input' || field.type === 'password'" :model="model" :field="field"
                         :readonly="readonly" />
 
-                    <el-select v-else-if="field.type === 'select'" v-model="model[field.prop]"
-                        :placeholder="field.placeholder || `请选择${field.label || ''}`" :disabled="readonly"
-                        :size="field.size ?? 'large'" style="width: 100%" v-bind="field.componentProps">
-                        <el-option v-for="option in field.options || []" :key="option.value" :label="option.label"
-                            :value="option.value" />
-                    </el-select>
+                    <!-- 下拉框 -->
+                    <UrsaSelect v-else-if="field.type === 'select'" :model="model" :field="field"
+                        :readonly="readonly" />
 
                     <slot v-else name="field" :field="field" :model="model" :readonly="readonly" />
                 </el-form-item>
@@ -37,6 +34,7 @@
 <script setup>
     import { computed, ref } from 'vue'
     import UrsaInput from '../UrsaInput/UrsaInput.vue'
+    import UrsaSelect from '../UrsaSelect/UrsaSelect.vue'
 
     defineOptions({
         name: 'UrsaForm'
