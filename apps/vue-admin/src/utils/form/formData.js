@@ -7,3 +7,11 @@ export const setFormData = (data = {}, form) => {
         }
     })
 }
+
+
+// 重置表单
+export const resetForm = (form) => {
+    Object.keys(form).forEach((key) => {
+        form[key] = ''
+    })
+}

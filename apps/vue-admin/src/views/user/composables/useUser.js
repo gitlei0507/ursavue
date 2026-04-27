@@ -1,4 +1,4 @@
-import { setFormData } from '@/utils/form/formData'
+import { resetForm, setFormData } from '@/utils/form/formData'
 import { createRules } from '@/utils/form/formRules'
 import { userForm } from '@/views/user/config/form.config'
 import { ElMessage } from "element-plus"
@@ -25,16 +25,18 @@ export function useUser(createUser, updateUser, deleteUser, handleSearch) {
 
     // 统一处理打开弹窗
     const openDialog = (edit, view, row) => {
-        // 表单赋值
-        setFormData(row, userForm)
+        resetForm(userForm)
+
+        if (row) {
+            // 表单赋值
+            setFormData(row, userForm)
+        }
         isEdit.value = edit
         isView.value = view
         dialogVisible.value = true
 
-        if (!view) {
-            // 清除校验
-            nextTick(() => userFormRef.value?.clearValidate?.())
-        }
+        // 清除校验
+        nextTick(() => userFormRef.value?.clearValidate?.())
     }
 
     const openAddDialog = () => openDialog(false, false)
