@@ -26,7 +26,7 @@
     import { createUser, deleteUser, listUser, updateUser } from '@/api/user';
     import router from '@/router';
     import { useUser } from '@/views/user/composables/useUser';
-    import { formFields, userForm } from '@/views/user/config/form.config';
+    import { createFormFields, userForm } from '@/views/user/config/form.config';
     import { searchFields, searchForm } from '@/views/user/config/search.config';
     import { columnFields } from '@/views/user/config/table.config';
     import { Edit, Plus } from '@element-plus/icons-vue';
@@ -34,6 +34,13 @@
     import { ref } from 'vue';
 
     const ursaTableRef = ref(null)
+
+    // 从后台获取的下拉数据
+    const roles = [
+        { label: '管理员', value: '1' },
+        { label: '普通用户', value: '2' }
+    ]
+    const formFields = createFormFields({ roles })
 
     // 查询
     const handleSearch = () => {
