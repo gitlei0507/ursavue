@@ -70,12 +70,12 @@
 
     // 新开标签编辑
     function openNewEdit() {
-        if (ursaTableRef.value?.checkSingleSelect?.()) {
+        if (ursaTableRef.value.checkSingleSelect()) {
             ElMessage.warning('请选择一条数据进行编辑')
             return
         }
 
-        const selectedRow = ursaTableRef.value?.selectedRows?.[0]
+        const selectedRow = ursaTableRef.value.selectedRows[0]
 
         const id = selectedRow.id
         router.push({
