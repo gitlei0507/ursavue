@@ -9,7 +9,7 @@ export function createRules(ruleConfigs) {
         if (config.required) {
             const message = typeof config.required === 'string'
                 ? config.required
-                : `请输入${field}` // 默认提示
+                : `请输入${field}`
             fieldRules.push({
                 required: true,
                 message,
@@ -46,6 +46,17 @@ export function createRules(ruleConfigs) {
                 trigger: 'blur'
             })
         }
+
+        // 正则校验
+        if (config.pattern) {
+            fieldRules.push({
+                pattern: config.pattern,       // 支持正则对象或字符串
+                message: config.patternMessage || `${field}格式不正确`,
+                trigger: config.patternTrigger || 'blur'
+            })
+        }
+
+
 
         // 自定义校验器
         if (config.validator) {
