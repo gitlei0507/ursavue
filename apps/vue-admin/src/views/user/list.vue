@@ -67,6 +67,15 @@
         await handleDelete(row)
     }
 
+    // 控件内容改变时触发
+    // const handleChange = ({ field, value }) => {
+    //     switch (field) {
+    //         case 'role': {
+    //             alert(value)
+    //         }
+    //     }
+    // }
+
 
     // 新开标签编辑
     function openNewEdit() {

@@ -46,7 +46,6 @@ export function createFormFields(options = {}) {
             prop: 'role',
             label: '角色',
             options: options.roles || []
-
         }
     ]
 }

@@ -9,8 +9,9 @@
                         :readonly="readonly" />
 
                     <!-- 下拉框 -->
-                    <UrsaSelect v-else-if="field.type === 'select'" :model="model" :field="field"
-                        :readonly="readonly" />
+                    <UrsaSelect v-else-if="field.type === 'select'" :model="model" :field="field" :readonly="readonly"
+                        @change="(value) => handleFieldChange(field, value)"
+                        @blur="(value) => handleFieldBlur(field, value)" />
 
                     <slot v-else name="field" :field="field" :model="model" :readonly="readonly" />
                 </el-form-item>
@@ -124,7 +125,7 @@
         }
     })
 
-    const emit = defineEmits(['update:modelValue', 'submit', 'cancel', 'open', 'closed'])
+    const emit = defineEmits(['update:modelValue', 'submit', 'cancel', 'open', 'closed', 'change'])
     const formRef = ref(null)
 
     // 统一用计算属性承接 v-model，内部关闭弹窗时同步通知父组件。
@@ -156,6 +157,14 @@
             return
         }
         emit('submit')
+    }
+
+    const handleFieldChange = (field, value) => {
+        emit('change', { field: field.prop, value })
+    }
+
+    const handleFieldBlur = (field, value) => {
+        emit('blur', { field: field.prop, value })
     }
 
     // 暴露给父组件的能力
