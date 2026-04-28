@@ -13,7 +13,7 @@ export const userForm = reactive({
 
 // 表单元素
 export function createFormFields(options = {}) {
-    return [
+    return reactive([
         {
             type: 'input',
             prop: 'id',
@@ -53,7 +53,7 @@ export function createFormFields(options = {}) {
         //     prop: 'birth',
         //     label: '出生年月',
         // }
-    ]
+    ])
 }
 
 

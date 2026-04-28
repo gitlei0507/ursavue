@@ -27,11 +27,11 @@
     import router from '@/router';
     import { useUser } from '@/views/user/composables/useUser';
     import { createFormFields, userForm } from '@/views/user/config/form.config';
-    import { searchFields, searchForm } from '@/views/user/config/search.config';
+    import { createSearchFields, searchForm } from '@/views/user/config/search.config';
     import { columnFields } from '@/views/user/config/table.config';
     import { Edit, Plus } from '@element-plus/icons-vue';
     import { UrsaForm, UrsaSearch, UrsaTable } from 'ursacomponents';
-    import { reactive, ref } from 'vue';
+    import { ref } from 'vue';
 
     const ursaTableRef = ref(null)
 
@@ -40,9 +40,16 @@
         { label: '管理员', value: '1' },
         { label: '普通用户', value: '2' }
     ]
-    const formFields = reactive(createFormFields({ roles }))
+
+    // 生成查询元素对象
+    const searchFields = createSearchFields({ roles })
+
+    // 生成表单元素对象
+    const formFields = createFormFields({ roles })
     // 动态给字段添加属性
     // updateFieldConfig(formFields, 'birth', { readonly: true })
+
+
 
     // 查询
     const handleSearch = () => {
