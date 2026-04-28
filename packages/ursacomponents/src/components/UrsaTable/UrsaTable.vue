@@ -78,8 +78,8 @@
 
 <script setup>
     import { Delete, Edit, View } from '@element-plus/icons-vue'
-import { computed, useSlots } from 'vue'
-import { useUrsaTable } from './useUrsaTable.js'
+    import { computed, useSlots } from 'vue'
+    import { useUrsaTable } from './useUrsaTable.js'
 
 
     defineOptions({
@@ -175,8 +175,8 @@ import { useUrsaTable } from './useUrsaTable.js'
         handleSizeChange,
         handleSortChange,
         handleSelectionChange,
-        checkSingleSelect,
-        checkHasSelect,
+        isSingleSelect,
+        hasSelectedRows,
         selectedRows
     } = useUrsaTable(props.listFun, props.searchForm, props.defaultSort, props.showPagination, props.defaultPageSize)
 
@@ -332,7 +332,7 @@ import { useUrsaTable } from './useUrsaTable.js'
     }
 
     // 对外暴露方法
-    defineExpose({ handleSearch, checkSingleSelect, checkHasSelect, selectedRows })
+    defineExpose({ handleSearch, isSingleSelect, hasSelectedRows, selectedRows })
 
 </script>
 

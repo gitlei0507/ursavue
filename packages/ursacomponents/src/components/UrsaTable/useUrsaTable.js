@@ -1,3 +1,4 @@
+import { ElMessage } from 'element-plus'
 import { onMounted, ref } from 'vue'
 
 export function useUrsaTable(apiFn, searchForm, defaultSort = {}, showPagination = true, defaultPageSize = 20) {
@@ -105,12 +106,16 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}, showPagination
     }
 
     // 是否只选中一条记录
-    const checkSingleSelect = () => {
-        return selectedRows.value.length !== 1
+    const isSingleSelect = () => {
+        if (selectedRows.value.length !== 1) {
+            ElMessage.warning('只能选择一条数据')
+            return false
+        }
+        return true
     }
 
     // 是否选中记录
-    const checkHasSelect = () => {
+    const hasSelectedRows = () => {
         return selectedRows.value.length !== 0
     }
 
@@ -130,8 +135,8 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}, showPagination
         handleSizeChange,
         handleSortChange,
         handleSelectionChange,
-        checkSingleSelect,
-        checkHasSelect,
+        isSingleSelect,
+        hasSelectedRows,
         selectedRows
     }
 }
