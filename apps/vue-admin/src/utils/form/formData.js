@@ -16,6 +16,7 @@ export const resetForm = (form) => {
     })
 }
 
+// 修改字段属性
 export const updateFieldConfig = (formFields, prop, updates) => {
     const field = formFields.find(f => f.prop === prop)
     if (field) {
