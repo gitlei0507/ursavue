@@ -2,13 +2,15 @@
     <el-date-picker v-if="!isDaterange" :model-value="getValue(field.prop)"
         @update:model-value="(value) => setValue(field.prop, value)" :type="field.type ?? 'date'"
         :placeholder="field.placeholder || `请选择${field.label || ''}`" :size="field.size ?? 'default'"
-        :format="field.format" :value-format="field.valueFormat ?? 'YYYY-MM-DD HH:mm:ss'" />
+        :class="field.class ?? props.source === 'form' ? '!w-full' : '!w-48'" :format="field.format"
+        :value-format="field.valueFormat ?? 'YYYY-MM-DD HH:mm:ss'" :readonly="effectiveReadonly" />
 
     <el-date-picker v-else :model-value="daterangeValue" @update:model-value="handleDaterangeChange" :type="field.type"
         :range-separator="field.rangeSeparator ?? '至'"
         :start-placeholder="field.placeholder || `请选择${field.label || ''}开始时间`"
         :end-placeholder="field.placeholder || `请选择${field.label || ''}结束时间`" :size="field.size ?? 'default'"
-        :format="field.format" :value-format="field.valueFormat ?? 'YYYY-MM-DD HH:mm:ss'" />
+        :class="field.class ?? props.source === 'form' ? '!w-full' : '!w-58'" :format="field.format"
+        :value-format="field.valueFormat ?? 'YYYY-MM-DD HH:mm:ss'" :readonly="effectiveReadonly" />
 </template>
 
 <script setup>
@@ -24,6 +26,14 @@
         model: {
             type: Object,
             default: () => ({})
+        },
+        readonly: {
+            type: Boolean,
+            default: false
+        },
+        source: {
+            type: String,
+            default: 'form'
         }
     })
 
@@ -75,6 +85,10 @@
 
         setValue(props.field.prop, value)
     }
+
+    const effectiveReadonly = computed(() => {
+        return props.field.readonly ?? props.readonly
+    })
 
 </script>
 

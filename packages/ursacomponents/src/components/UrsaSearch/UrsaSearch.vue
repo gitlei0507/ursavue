@@ -8,15 +8,16 @@
 
                     <!-- 下拉框     -->
                     <UrsaSelect v-else-if="field.type === 'select'" :field="field" :model="model" @change="field.change"
-                        @blur="field.blur" />
+                        @blur="field.blur" source="search" />
 
                     <!-- 树形下拉框 -->
-                    <ursa-tree-select v-else-if="field.type === 'treeselect'" :field="field" :model="model" />
+                    <ursa-tree-select v-else-if="field.type === 'treeselect'" :field="field" :model="model"
+                        source="search" />
 
                     <!-- 日期时间 -->
                     <UrsaDate
                         v-else-if="['date', 'week', 'year', 'month', 'dates', 'years', 'months', 'daterange', 'datetime', 'datetimerange'].includes(field.type)"
-                        :field="field" :model="model" />
+                        :field="field" :model="model" source="search" />
 
 
                     <!-- 其他控件 -->

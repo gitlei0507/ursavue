@@ -7,7 +7,8 @@ export const userForm = reactive({
     username: '',
     password: '',
     email: '',
-    role: ''
+    role: '',
+    birth: ''
 })
 
 // 表单元素
@@ -46,6 +47,11 @@ export function createFormFields(options = {}) {
             prop: 'role',
             label: '角色',
             options: options.roles || []
+        },
+        {
+            type: 'date',
+            prop: 'birth',
+            label: '出生年月'
         }
     ]
 }

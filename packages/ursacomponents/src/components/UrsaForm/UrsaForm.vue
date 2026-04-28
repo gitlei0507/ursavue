@@ -13,7 +13,14 @@
                         @change="(value) => handleFieldChange(field, value)"
                         @blur="(value) => handleFieldBlur(field, value)" />
 
+
+                    <!-- 时间选择 -->
+                    <UrsaDate
+                        v-else-if="['date', 'week', 'year', 'month', 'dates', 'years', 'months', 'daterange', 'datetime', 'datetimerange'].includes(field.type)"
+                        :field="field" :model="model" :readonly="readonly" />
+
                     <slot v-else name="field" :field="field" :model="model" :readonly="readonly" />
+
                 </el-form-item>
             </template>
         </el-form>
@@ -34,6 +41,7 @@
 
 <script setup>
     import { computed, ref } from 'vue'
+    import UrsaDate from '../UrsaDate/UrsaDate.vue'
     import UrsaInput from '../UrsaInput/UrsaInput.vue'
     import UrsaSelect from '../UrsaSelect/UrsaSelect.vue'
 
