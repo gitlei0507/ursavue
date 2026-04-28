@@ -5,8 +5,8 @@
 
         <!-- 列表区域 -->
         <UrsaTable ref="ursaTableRef" :listFun="listUser" :searchForm="searchForm" :columnFields="columnFields"
-            :defaultSort="{ prop: 'username', order: 'ascending' }" @add="handleAddAction" @view="handleViewAction"
-            @edit="handleEditAction" @delete="handleDeleteAction">
+            :defaultSort="{ prop: 'username', order: 'ascending' }" @view="handleViewAction" @edit="handleEditAction"
+            @delete="handleDeleteAction">
             <template #toolbar>
                 <el-button type="primary" @click="openAddDialog" :icon="Plus">新增</el-button>
                 <el-button type="warning" @click="openNewEdit" :icon="Edit">新开标签编辑</el-button>
@@ -28,7 +28,7 @@
     import { useUser } from '@/views/user/composables/useUser';
     import { createFormFields, userForm } from '@/views/user/config/form.config';
     import { createSearchFields, searchForm } from '@/views/user/config/search.config';
-    import { columnFields } from '@/views/user/config/table.config';
+    import { createColumnFields } from '@/views/user/config/table.config';
     import { Edit, Plus } from '@element-plus/icons-vue';
     import { UrsaForm, UrsaSearch, UrsaTable } from 'ursacomponents';
     import { ref } from 'vue';
@@ -41,8 +41,16 @@
         { label: '普通用户', value: '2' }
     ]
 
+    const roleTagMap = {
+        1: { label: '管理员', type: 'danger', effect: 'dark' },
+        2: { label: '普通用户', type: 'success', effect: 'dark' }
+    }
+
     // 生成查询元素对象
     const searchFields = createSearchFields({ roles })
+
+    // 生成列表元素对象
+    const columnFields = createColumnFields({ roleTagMap })
 
     // 生成表单元素对象
     const formFields = createFormFields({ roles })
@@ -59,11 +67,6 @@
     // 查看
     const handleViewAction = ({ row }) => {
         openViewDialog(row)
-    }
-
-    // 新增
-    const handleAddAction = () => {
-        openAddDialog()
     }
 
     // 编辑

@@ -203,6 +203,11 @@ export function useSnmpServer(createSnmpServer, updateSnmpServer, deleteSnmpServ
         }
     }
 
+    // 删除
+    const handleDelete = () => {
+
+    }
+
     const selectedRows = ref([])
 
     const handleSelectionChange = (rows) => {
@@ -281,6 +286,7 @@ export function useSnmpServer(createSnmpServer, updateSnmpServer, deleteSnmpServ
         openAddDialog,
         openEditDialog,
         openViewDialog,
+        handleDelete,
         handleToolbarEdit,
         handleToolbarDelete,
         handleMoreActionCommand,

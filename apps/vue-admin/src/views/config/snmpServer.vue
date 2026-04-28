@@ -1,37 +1,23 @@
 <template>
     <div class="user-list-container">
         <!-- 搜索栏 -->
-        <el-card class="search-card" shadow="never">
-            <el-form :inline="true" :model="searchForm" class="search-form">
-                <el-form-item label="服务器IP">
-                    <el-input v-model="searchForm.serverip" placeholder="请输入服务器IP" clearable class="!w-48" />
-                </el-form-item>
-                <el-form-item label="服务器名称">
-                    <el-input v-model="searchForm.servername" placeholder="请输入服务器名称" clearable class="!w-48" />
-                </el-form-item>
-                <el-form-item label="版本">
-                    <el-input v-model="searchForm.ver" placeholder="请输入版本" clearable class="!w-48" />
-                </el-form-item>
-                <el-form-item label="是否启用">
-                    <el-select v-model="searchForm.enable" placeholder="请选择是否启用" clearable class="!w-48">
-                        <el-option label="是" value="1"></el-option>
-                        <el-option label="否" value="0"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="handleSearch" :icon="Search">查询</el-button>
-                    <el-button @click="resetSearch" :icon="Refresh">重置</el-button>
-                </el-form-item>
-            </el-form>
-        </el-card>
+        <UrsaSearch :model="searchForm" :fields="searchFields" @search="handleSearch" />
 
-        <!-- 表格区域 -->
-        <el-card class="table-card" shadow="never">
-            <!-- 操作栏 -->
-            <div class="toolbar">
+        <!-- 列表区域 -->
+        <UrsaTable ref="ursaTableRef" :listFun="list" :searchForm="searchForm" :columnFields="columnFields"
+            :defaultSort="{ prop: 'serverip', order: 'ascending' }" :showActionColumn="false" @view="handleViewAction"
+            @edit="handleEditAction" @delete="handleDeleteAction">
+            <template #toolbar>
                 <el-button type="primary" @click="openAddDialog" :icon="Plus">新增</el-button>
-                <el-button type="warning" @click="handleToolbarEdit" :icon="Edit">编辑</el-button>
-                <el-button type="danger" @click="handleToolbarDelete" :icon="Delete">删除</el-button>
+                <el-button type="warning" @click="openEditDialog(scope.row)" :icon="Edit">
+                    编辑
+                </el-button>
+                <el-button type="danger" @click="handleDelete(scope.$index, scope.row, {
+                    nameField: 'servername',
+                    confirmText: '确认要删除SNMP服务器'
+                }, deleteSnmpServer)" :icon="Delete">
+                    删除
+                </el-button>
                 <el-dropdown class="more-action-dropdown" popper-class="more-action-dropdown-menu"
                     @command="handleMoreActionCommand">
                     <el-button type="info">
@@ -47,70 +33,10 @@
                         </el-dropdown-menu>
                     </template>
                 </el-dropdown>
-            </div>
-
-            <!-- 数据列表容器 -->
-            <div class="table-wrapper">
-                <el-table :data="tableData" v-loading="loading" stripe border style="width: 100%" height="100%"
-                    :default-sort="{ prop: 'serverip', order: 'ascending' }" @sort-change="handleSortChange"
-                    @selection-change="handleSelectionChange">
-                    <el-table-column type="index" label="" width="70" align="center"
-                        :index="(index) => (currentPage - 1) * pageSize + index + 1" />
-                    <el-table-column type="selection" width="55" align="center" />
-                    <el-table-column prop="servername" label="服务器名称" width="200" align="center" sortable="custom"
-                        :sort-orders="['ascending', 'descending']" />
-                    <el-table-column prop="serverip" label="服务器IP" min-width="200" show-overflow-tooltip align="center"
-                        sortable="custom" :sort-orders="['ascending', 'descending']" />
-                    <el-table-column prop="ver" label="版本" min-width="200" align="center" sortable="custom"
-                        :sort-orders="['ascending', 'descending']"></el-table-column>
-                    <el-table-column prop="enable" label="启用" min-width="100" align="center" sortable="custom"
-                        :sort-orders="['ascending', 'descending']">
-                        <template #default="scope">
-                            <el-tag v-if="scope.row.enable === '0'" type="danger" effect="dark">停用</el-tag>
-                            <el-tag v-else-if="scope.row.enable === '1'" type="success" effect="dark">启用</el-tag>
-                            <span v-else>{{ scope.row.enable }}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="memo" label="备注" min-width="300" align="center"
-                        sortable="custom"></el-table-column>
-                    <el-table-column prop="ctuser" label="创建人" min-width="200" align="center"
-                        sortable="custom"></el-table-column>
-                    <el-table-column prop="cttime" label="创建时间" min-width="200" align="center"
-                        sortable="custom"></el-table-column>
-                    <el-table-column prop="upuser" label="更新人" min-width="200" align="center"
-                        sortable="custom"></el-table-column>
-                    <el-table-column prop="uptime" label="更新时间" min-width="200" align="center"
-                        sortable="custom"></el-table-column>
-
-                    <el-table-column label="操作" width="240" align="center" fixed="right">
-                        <template #default="scope">
-                            <el-button link type="info" size="small" @click="openViewDialog(scope.row)" :icon="View">
-                                查看
-                            </el-button>
-                            <el-button link type="primary" size="small" @click="openEditDialog(scope.row)" :icon="Edit">
-                                编辑
-                            </el-button>
-                            <el-button link type="danger" size="small" @click="handleDelete(scope.$index, scope.row, {
-                                nameField: 'servername',
-                                confirmText: '确认要删除SNMP服务器'
-                            }, deleteSnmpServer)" :icon="Delete">
-                                删除
-                            </el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </div>
-
-            <!-- 分页栏区域 -->
-            <div class="pagination-container">
-                <div class="pagination-wrapper">
-                    <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize"
-                        :page-sizes="[5, 10, 20, 50]" background layout="total, sizes, prev, pager, next, jumper"
-                        :total="total" @current-change="handleCurrentChange" @size-change="handleSizeChange" />
-                </div>
-            </div>
-        </el-card>
+            </template>
+        </UrsaTable>
     </div>
+
 
 
     <!-- snmp服务器表单弹窗 -->
@@ -225,31 +151,32 @@
 <script setup>
     import { createSnmpServer, deleteSnmpServer, list, updateSnmpServer } from '@/api/snmpServer';
     import { useSnmpServer } from '@/composables/useSnmpServer';
-    import { ArrowDown, Delete, Edit, Plus, Refresh, Search, View } from '@element-plus/icons-vue';
-    import { useUrsaSearch, useUrsaTable } from 'ursacomponents';
-    import { reactive } from 'vue';
+    import { createSearchFields, searchForm } from '@/views/config/config/search.config';
+    import { columnFields } from '@/views/config/config/table.config';
+    import { Delete, Edit, Plus } from '@element-plus/icons-vue';
+    import { UrsaSearch, useUrsaSearch } from 'ursacomponents';
+
+    const ver = [
+        { label: 'v2c', value: 'v2c' },
+        { label: 'v3', value: 'v3' },
+    ]
+
+    const enable = [
+        { label: '启用', value: '1' },
+        { label: '停用', value: '0' },
+    ]
 
 
-    const searchForm = reactive({
-        serverip: '',
-        servername: '',
-        ver: '',
-        enable: ''
-    })
+    const searchFields = createSearchFields({ ver, enable })
 
 
-    const {
-        tableData,
-        loading,
-        currentPage,
-        pageSize,
-        total,
-        handleSearch,
-        handleDelete,
-        handleCurrentChange,
-        handleSizeChange,
-        handleSortChange
-    } = useUrsaTable(list, searchForm, { prop: 'serverip', order: 'ascending' })
+    // 查询
+    const handleSearch = () => {
+        ursaTableRef.value.handleSearch()
+    }
+
+
+
 
     const { resetSearch } = useUrsaSearch(searchForm, handleSearch)
 
@@ -265,6 +192,7 @@
         isEncryptPwdReadonly,
         openAddDialog,
         openEditDialog,
+        handleDelete,
         openViewDialog,
         handleSelectionChange,
         handleToolbarEdit,
