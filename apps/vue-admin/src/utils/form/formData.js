@@ -15,3 +15,10 @@ export const resetForm = (form) => {
         form[key] = ''
     })
 }
+
+export const updateFieldConfig = (formFields, prop, updates) => {
+    const field = formFields.find(f => f.prop === prop)
+    if (field) {
+        Object.assign(field, updates)
+    }
+}

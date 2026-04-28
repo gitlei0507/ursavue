@@ -48,11 +48,11 @@ export function createFormFields(options = {}) {
             label: '角色',
             options: options.roles || []
         },
-        {
-            type: 'date',
-            prop: 'birth',
-            label: '出生年月'
-        }
+        // {
+        //     type: 'date',
+        //     prop: 'birth',
+        //     label: '出生年月',
+        // }
     ]
 }
 

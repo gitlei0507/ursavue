@@ -31,7 +31,7 @@
     import { columnFields } from '@/views/user/config/table.config';
     import { Edit, Plus } from '@element-plus/icons-vue';
     import { UrsaForm, UrsaSearch, UrsaTable } from 'ursacomponents';
-    import { ref } from 'vue';
+    import { reactive, ref } from 'vue';
 
     const ursaTableRef = ref(null)
 
@@ -40,7 +40,9 @@
         { label: '管理员', value: '1' },
         { label: '普通用户', value: '2' }
     ]
-    const formFields = createFormFields({ roles })
+    const formFields = reactive(createFormFields({ roles }))
+    // 动态给字段添加属性
+    // updateFieldConfig(formFields, 'birth', { readonly: true })
 
     // 查询
     const handleSearch = () => {
