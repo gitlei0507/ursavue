@@ -106,17 +106,23 @@ export function useUrsaTable(apiFn, searchForm, defaultSort = {}, showPagination
     }
 
     // 是否只选中一条记录
-    const isSingleSelect = () => {
+    const isSingleSelect = (options = {}) => {
         if (selectedRows.value.length !== 1) {
-            ElMessage.warning('只能选择一条数据')
+            const msg = options.msg ?? '只能选择一条数据'
+            ElMessage.warning(msg)
             return false
         }
         return true
     }
 
     // 是否选中记录
-    const hasSelectedRows = () => {
-        return selectedRows.value.length !== 0
+    const hasSelectedRows = (options = {}) => {
+        if (selectedRows.value.length === 0) {
+            const msg = options.msg ?? '请选择一条数据'
+            ElMessage.warning(msg)
+            return false
+        }
+        return true
     }
 
     // 组件挂载后自动加载数据
