@@ -95,6 +95,7 @@ export function useUser(createUser, updateUser, deleteUser, handleSearch) {
     return {
         dialogVisible,
         submitLoading,
+        userForm,
         userFormRef,
         isEdit,
         isView,
