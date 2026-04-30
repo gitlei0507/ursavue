@@ -26,9 +26,7 @@
     import { createUser, deleteUser, listUser, updateUser } from '@/api/user';
     import router from '@/router';
     import { useUser } from '@/views/user/composables/useUser';
-    import { createFormFields } from '@/views/user/config/form.config';
-    import { createSearchFields, searchForm } from '@/views/user/config/search.config';
-    import { createColumnFields } from '@/views/user/config/table.config';
+    import { createUserCrudConfig, searchForm } from '@/views/user/config/user.crud';
     import { Edit, Plus } from '@element-plus/icons-vue';
     import { UrsaForm, UrsaSearch, UrsaTable } from 'ursacomponents';
     import { ref } from 'vue';
@@ -46,23 +44,15 @@
         2: { label: '普通用户', type: 'success', effect: 'dark' }
     }
 
-    // 生成查询元素对象
-    const searchFields = createSearchFields({ roles })
-
-    // 生成列表元素对象
-    const columnFields = createColumnFields({ roleTagMap })
-
-    // 生成表单元素对象
-    const formFields = createFormFields({ roles })
+    const { searchFields, columnFields, formFields } = createUserCrudConfig({
+        roles,
+        roleTagMap
+    })
     // 动态给字段添加属性
     // updateFieldConfig(formFields, 'birth', { readonly: true })
 
-
-
-    // 查询
-    const handleSearch = () => {
-        ursaTableRef.value.handleSearch()
-    }
+    // 查询 - 使用可选链防止 ref 为空
+    const handleSearch = () => ursaTableRef.value?.handleSearch()
 
     // 控件内容改变时触发
     // const handleChange = ({ field, value }) => {
