@@ -6,7 +6,7 @@ import { nextTick, ref } from "vue"
 
 
 // userForm 由 schema 生成并注入
-export function useUser(createUser, updateUser, deleteUser, handleSearch, userForm) {
+export function useUser({ api, onSearch, form }) {
 
     const dialogVisible = ref(false)
     const submitLoading = ref(false)
@@ -25,11 +25,11 @@ export function useUser(createUser, updateUser, deleteUser, handleSearch, userFo
 
     // 统一处理打开弹窗
     const openDialog = (edit, view, row) => {
-        resetForm(userForm)
+        resetForm(form)
 
         if (row) {
             // 表单赋值
-            setFormData(row, userForm)
+            setFormData(row, form)
         }
         isEdit.value = edit
         isView.value = view
@@ -54,10 +54,10 @@ export function useUser(createUser, updateUser, deleteUser, handleSearch, userFo
         }
 
         try {
-            const res = await deleteUser(row)
+            const res = await api.deleteUser(row)
             if (res === 1) {
                 ElMessage.success('删除成功')
-                handleSearch()
+                onSearch()
             } else {
                 ElMessage.error('删除失败')
             }
@@ -76,12 +76,12 @@ export function useUser(createUser, updateUser, deleteUser, handleSearch, userFo
         submitLoading.value = true
         const action = isEdit.value ? '修改' : '新增'
         try {
-            const apiFn = isEdit.value ? updateUser : createUser
-            const res = await apiFn(userForm)
+            const apiFn = isEdit.value ? api.updateUser : api.createUser
+            const res = await apiFn(form)
             if (res == 1) {
                 ElMessage.success(`${action}用户成功`)
                 dialogVisible.value = false
-                handleSearch()
+                onSearch()
             } else {
                 ElMessage.error(`${action}用户失败`)
             }
@@ -95,7 +95,7 @@ export function useUser(createUser, updateUser, deleteUser, handleSearch, userFo
     return {
         dialogVisible,
         submitLoading,
-        userForm,
+        userForm: form,
         userFormRef,
         isEdit,
         isView,

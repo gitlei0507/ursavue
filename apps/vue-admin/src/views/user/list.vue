@@ -74,6 +74,7 @@
         roleTagMap,
         terminalSelTree
     })
+
     // 动态给字段添加属性
     // updateFieldConfig(formFields, 'birth', { readonly: true })
 
@@ -116,7 +117,15 @@
         handleDelete,
         submitForm,
         rules
-    } = useUser(createUser, updateUser, deleteUser, handleSearch, userForm)
+    } = useUser({
+        api: {
+            createUser,
+            updateUser,
+            deleteUser
+        },
+        onSearch: handleSearch,
+        form: userForm
+    })
 
 
 
