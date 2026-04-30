@@ -26,7 +26,7 @@
     import { createUser, deleteUser, listUser, updateUser } from '@/api/user';
     import router from '@/router';
     import { useUser } from '@/views/user/composables/useUser';
-    import { createUserCrudConfig, searchForm } from '@/views/user/config/user.crud';
+    import { createUserCrudConfig } from '@/views/user/schema/user.schema';
     import { Edit, Plus } from '@element-plus/icons-vue';
     import { UrsaForm, UrsaSearch, UrsaTable } from 'ursacomponents';
     import { ref } from 'vue';
@@ -44,14 +44,40 @@
         2: { label: '普通用户', type: 'success', effect: 'dark' }
     }
 
-    const { searchFields, columnFields, formFields } = createUserCrudConfig({
+    const terminalSelTree = [
+        {
+            value: 'root',
+            label: '资产类型',
+            isFolderOpened: true,
+            children: [
+                {
+                    value: 'camera',
+                    label: '网络设备',
+                    isFolderOpened: true,
+                    children: [
+                        { value: 'networkcamera', label: '网络摄像机', isFolderOpened: false },
+                        { value: 'networkdisk', label: '网络硬盘录像机', isFolderOpened: false }
+                    ]
+                },
+                {
+                    value: 'security',
+                    label: '安全设备',
+                    isFolderOpened: true
+                }
+            ]
+        }
+    ]
+
+    // 统一生成查询/表格/表单配置
+    const { searchForm, userForm, searchFields, columnFields, formFields } = createUserCrudConfig({
         roles,
-        roleTagMap
+        roleTagMap,
+        terminalSelTree
     })
     // 动态给字段添加属性
     // updateFieldConfig(formFields, 'birth', { readonly: true })
 
-    // 查询 - 使用可选链防止 ref 为空
+    // 查询
     const handleSearch = () => ursaTableRef.value?.handleSearch()
 
     // 控件内容改变时触发
@@ -81,7 +107,6 @@
     const {
         dialogVisible,
         submitLoading,
-        userForm,
         userFormRef,
         isEdit,
         isView,
@@ -91,7 +116,7 @@
         handleDelete,
         submitForm,
         rules
-    } = useUser(createUser, updateUser, deleteUser, handleSearch)
+    } = useUser(createUser, updateUser, deleteUser, handleSearch, userForm)
 
 
 

@@ -1,12 +1,12 @@
 import { resetForm, setFormData } from '@/utils/form/formData'
 import { createRules } from '@/utils/form/formRules'
-import { userForm } from '@/views/user/config/form.config'
 import { ElMessage } from "element-plus"
 import { UrsaMessageBox } from 'ursacomponents'
 import { nextTick, ref } from "vue"
 
 
-export function useUser(createUser, updateUser, deleteUser, handleSearch) {
+// userForm 由 schema 生成并注入
+export function useUser(createUser, updateUser, deleteUser, handleSearch, userForm) {
 
     const dialogVisible = ref(false)
     const submitLoading = ref(false)
