@@ -5,8 +5,8 @@
 
         <!-- 列表区域 -->
         <UrsaTable ref="ursaTableRef" :listFun="listUser" :searchForm="searchForm" :columnFields="columnFields"
-            :defaultSort="{ prop: 'username', order: 'ascending' }" @view="handleViewAction" @edit="handleEditAction"
-            @delete="handleDeleteAction">
+            :defaultSort="{ prop: 'username', order: 'ascending' }" @view="({ row }) => openViewDialog(row)"
+            @edit="({ row }) => openEditDialog(row)" @delete="({ row }) => handleDelete(row)">
             <template #toolbar>
                 <el-button type="primary" @click="openAddDialog" :icon="Plus">新增</el-button>
                 <el-button type="warning" @click="openNewEdit" :icon="Edit">新开标签编辑</el-button>
@@ -64,21 +64,6 @@
         ursaTableRef.value.handleSearch()
     }
 
-    // 查看
-    const handleViewAction = ({ row }) => {
-        openViewDialog(row)
-    }
-
-    // 编辑
-    const handleEditAction = ({ row }) => {
-        openEditDialog(row)
-    }
-
-    // 删除
-    const handleDeleteAction = async ({ row }) => {
-        await handleDelete(row)
-    }
-
     // 控件内容改变时触发
     // const handleChange = ({ field, value }) => {
     //     switch (field) {
@@ -122,14 +107,4 @@
 
 </script>
 
-<style scoped>
-    .user-list-container {
-        padding: 20px;
-        background-color: #f0f2f5;
-        height: 100%;
-        min-height: 0;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-    }
-</style>
+<style scoped></style>
