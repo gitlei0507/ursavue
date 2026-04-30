@@ -381,20 +381,6 @@
         gap: 12px;
     }
 
-    :deep(.el-table) {
-        font-size: 14px;
-    }
-
-    :deep(.el-table th.el-table__cell) {
-        background-color: #fafafa;
-        color: #333;
-        font-weight: 600;
-    }
-
-    :deep(.el-button + .el-button) {
-        margin-left: 8px;
-    }
-
     :deep(.el-tag) {
         transition: none !important;
         min-width: 80px;

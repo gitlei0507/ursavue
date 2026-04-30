@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --el-table-font-size: 14px;
+    --el-table-header-bg-color: #fafafa;
+    --el-table-header-text-color: #333;
+    --el-table-header-font-weight: 600;
+  }
+}
+
+
 .ursa-message-box-with-check {
   position: relative;
 }
