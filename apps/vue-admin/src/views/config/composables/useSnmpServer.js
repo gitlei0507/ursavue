@@ -1,5 +1,5 @@
 ﻿import { resetForm, setFormData } from '@/utils/form/formData'
-import { ref } from "vue"
+import { nextTick, ref, watch } from "vue"
 
 
 
@@ -17,6 +17,7 @@ export function useSnmpServer({ api, onSearch, form = {} }) {
     // 统一处理打开弹窗
     const openDialog = (edit, view, row) => {
         resetForm(form)
+        form.ver = 'v3'
 
         if (row) {
             // 表单赋值
@@ -33,6 +34,21 @@ export function useSnmpServer({ api, onSearch, form = {} }) {
     const openAddDialog = () => openDialog(false, false)
     const openEditDialog = (row) => openDialog(true, false, row)
     const openViewDialog = (row) => openDialog(false, true, row)
+
+    watch(
+        () => form.ver,
+        (newValue) => {
+            if (newValue === 'v3') {
+                form.community = ''
+            } else {
+                form.username = ''
+                form.certmethod = ''
+                form.certpwd = ''
+                form.encryptmethod = ''
+                form.encryptpwd = ''
+            }
+        }
+    )
 
 
 

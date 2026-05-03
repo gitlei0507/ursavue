@@ -85,7 +85,7 @@ const snmpServerSchema = {
         ]
     },
     form: {
-        module: {
+        model: {
             servercode: '',
             ver: '',
             servername: '',
@@ -130,33 +130,39 @@ const snmpServerSchema = {
             {
                 type: 'input',
                 prop: 'username',
-                label: 'v3安全用户名'
+                label: 'v3安全用户名',
+                visible: (model) => model.ver === 'v3'
             },
             {
                 type: 'select',
                 prop: 'certmethod',
                 label: '认证方式',
-                optionsKey: 'certmethodOption'
+                optionsKey: 'certmethodOption',
+                visible: (model) => model.ver === 'v3'
             }, {
                 type: 'password',
                 prop: 'certpwd',
-                label: '认证密码'
+                label: '认证密码',
+                visible: (model) => model.ver === 'v3'
             },
             {
                 type: 'select',
                 prop: 'encryptmethod',
                 label: '加密方式',
-                optionsKey: 'encryptmethodOption'
+                optionsKey: 'encryptmethodOption',
+                visible: (model) => model.ver === 'v3'
             },
             {
                 type: 'password',
                 prop: 'encryptpwd',
-                label: '加密密码'
+                label: '加密密码',
+                visible: (model) => model.ver === 'v3'
             },
             {
                 type: 'password',
                 prop: 'community',
-                label: 'v2c团体名'
+                label: 'v2c团体名',
+                visible: (model) => model.ver !== 'v3'
             },
             {
                 type: 'textarea',

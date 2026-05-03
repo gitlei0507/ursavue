@@ -3,7 +3,8 @@
         :destroy-on-close="destroyOnClose" :draggable="draggable" @open="emit('open')" @closed="emit('closed')">
         <el-form ref="formRef" :model="model" :rules="rules" :label-width="labelWidth" class="ursa-form">
             <template v-for="field in fields" :key="field.prop || field.label">
-                <el-form-item v-if="!field.hidden" :label="field.label" :prop="field.prop" :label-width="labelWidth">
+                <el-form-item v-if="isFieldVisible(field)" :label="field.label" :prop="field.prop"
+                    :label-width="labelWidth">
                     <!-- 单行输入框 -->
                     <UrsaInput v-if="['input', 'password', 'textarea'].includes(field.type)" :model="model"
                         :field="field" :readonly="readonly" />
@@ -173,6 +174,14 @@
 
     const handleFieldBlur = (field, value) => {
         emit('blur', { field: field.prop, value })
+    }
+
+    const isFieldVisible = (field) => {
+        if (field.hidden) return false
+        if (typeof field.visible === 'function') {
+            return field.visible(props.model)
+        }
+        return true
     }
 
     // 暴露给父组件的能力
