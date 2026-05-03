@@ -19,15 +19,7 @@ const staticRoutes = [
         path: '/',
         name: 'layout',
         component: Layout,
-        redirect: '/dashboard', // 访问根路径时重定向到首页
-        children: [
-            {
-                path: '/user/edit',
-                name: 'userEdit',
-                component: () => import('@/views/user/edit.vue'),
-                meta: { title: '编辑用户' }
-            }
-        ]
+        redirect: '/dashboard' // 访问根路径时重定向到首页
     }
 ]
 

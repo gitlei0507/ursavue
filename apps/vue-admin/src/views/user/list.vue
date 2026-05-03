@@ -25,6 +25,7 @@
 <script setup>
     import { createUser, deleteUser, listUser, updateUser } from '@/api/user';
     import router from '@/router';
+    import { createDynamicRoute } from '@/router/dynamic-routes';
     import { useUser } from '@/views/user/composables/useUser';
     import { createUserCrudConfig } from '@/views/user/schema/user.schema';
     import { Edit, Plus } from '@element-plus/icons-vue';
@@ -98,6 +99,13 @@
         const selectedRow = ursaTableRef.value.selectedRows[0]
 
         const id = selectedRow.id
+        createDynamicRoute(router, {
+            path: '/user/edit',
+            name: 'userEdit',
+            viewPath: 'user/edit',
+            meta: { title: '编辑用户' }
+        })
+
         router.push({
             path: '/user/edit',
             query: { id: String(id) }
