@@ -82,6 +82,7 @@
     const {
         dialogVisible,
         submitLoading,
+        snmpServerFormRef,
         openViewDialog,
         openAddDialog,
         openEditDialog,

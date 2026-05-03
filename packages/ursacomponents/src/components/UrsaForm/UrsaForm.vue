@@ -134,7 +134,7 @@
         }
     })
 
-    const emit = defineEmits(['update:modelValue', 'submit', 'cancel', 'open', 'closed', 'change'])
+    const emit = defineEmits(['update:modelValue', 'submit', 'cancel', 'open', 'closed', 'change', 'blur'])
     const formRef = ref(null)
 
     // 统一用计算属性承接 v-model，内部关闭弹窗时同步通知父组件。

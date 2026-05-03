@@ -1,12 +1,13 @@
 ﻿import { resetForm, setFormData } from '@/utils/form/formData'
-import { nextTick, ref, watch } from "vue"
+import { ElMessage } from 'element-plus'
+import { nextTick, ref, watch } from 'vue'
 
 
 
 export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
     const dialogVisible = ref(false)
     const submitLoading = ref(false)
-    const snmpServerFormRef = ref()
+    const snmpServerFormRef = ref(null)
     const isEdit = ref(false)
     const isView = ref(false)
 
@@ -17,7 +18,9 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
     // 统一处理打开弹窗
     const openDialog = (edit, view, row) => {
         resetForm(form)
+        // 设置默认值
         form.ver = 'v3'
+        form.port = '161'
 
         if (row) {
             // 表单赋值
@@ -52,6 +55,33 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
 
     // 删除
 
+
+    // 提交表单
+    const submitForm = async () => {
+        if (!snmpServerFormRef.value) return
+
+        //const valid = await snmpServerFormRef.value.validate().catch(() => false)
+        //if (!valid) return
+
+        submitLoading.value = true
+        const action = isEdit.value ? '修改' : '新增'
+        try {
+            const apiFn = isEdit.value ? api.updateSnmpServer : api.createSnmpServer
+            const res = await apiFn(form)
+            if (res == 1) {
+                ElMessage.success(`${action}SNMP服务器成功`)
+                dialogVisible.value = false
+                onSearch()
+            } else {
+                ElMessage.error(`${action}SNMP服务器失败`)
+            }
+        } catch (error) {
+            ElMessage.error(`${action}SNMP服务器失败：${error.message || error}`)
+        } finally {
+            submitLoading.value = false
+        }
+    }
+
     watch(
         () => form.ver,
         (newValue) => {
@@ -69,17 +99,16 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
 
 
 
-
-
-
     return {
         dialogVisible,
         submitLoading,
+        snmpServerFormRef,
         isEdit,
         isView,
         openAddDialog,
         openEditDialog,
         openViewDialog,
+        submitForm,
         rules
     }
 
