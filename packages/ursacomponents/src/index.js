@@ -9,7 +9,9 @@ import UrsaSelect from './components/UrsaSelect/UrsaSelect.vue'
 import UrsaTable from './components/UrsaTable/UrsaTable.vue'
 import UrsaTagsView from './components/UrsaTagsView/UrsaTagsView.vue'
 import UrsaTreeSelect from './components/UrsaTreeSelect/UrsaTreeSelect.vue'
+import ProcessView from './components/UrsaProcess/ProcessView.vue'
 import './styles/tailwind.css'
+
 export { UrsaMessageBox } from './utils/UrsaMessageBox'
 
 // 组合式能力按需导出。
@@ -18,10 +20,10 @@ export { useUrsaMenuItem } from './components/UrsaMenu/useUrsaMenuItem'
 export { useUrsaSearch } from './components/UrsaSearch/useUrsaSearch'
 export { useUrsaTable } from './components/UrsaTable/useUrsaTable'
 // 组件按需导出。
-export { UrsaDate, UrsaForm, UrsaInput, UrsaMenu, UrsaMenuItem, UrsaNavBar, UrsaSearch, UrsaSelect, UrsaTable, UrsaTagsView, UrsaTreeSelect }
+export { ProcessView, UrsaDate, UrsaForm, UrsaInput, UrsaMenu, UrsaMenuItem, UrsaNavBar, UrsaSearch, UrsaSelect, UrsaTable, UrsaTagsView, UrsaTreeSelect }
 
 // 全量安装时需要注册的组件列表。
-const components = [UrsaSearch, UrsaTable, UrsaMenu, UrsaMenuItem, UrsaTagsView, UrsaNavBar, UrsaSelect, UrsaTreeSelect, UrsaInput, UrsaDate, UrsaForm]
+const components = [ProcessView, UrsaSearch, UrsaTable, UrsaMenu, UrsaMenuItem, UrsaTagsView, UrsaNavBar, UrsaSelect, UrsaTreeSelect, UrsaInput, UrsaDate, UrsaForm]
 
 // Vue 插件安装入口：一次性注册所有组件。
 const install = (app) => {

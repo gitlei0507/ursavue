@@ -10,6 +10,7 @@
             <template #toolbar>
                 <el-button type="primary" @click="openAddDialog" :icon="Plus">新增</el-button>
                 <el-button type="warning" @click="openNewEdit" :icon="Edit">新开标签编辑</el-button>
+                <el-button type="primary" @click="openProcess" :icon="View">查看流程图</el-button>
             </template>
         </UrsaTable>
     </div>
@@ -20,6 +21,9 @@
         :model="userForm" :fields="formFields" :rules="rules" :readonly="isView" :loading="submitLoading"
         @submit="submitForm" />
 
+
+    <ProcessView v-model="processVisible"></ProcessView>
+
 </template>
 
 <script setup>
@@ -28,8 +32,8 @@
     import { createDynamicRoute } from '@/router/dynamic-routes';
     import { useUser } from '@/views/user/composables/useUser';
     import { createUserCrudConfig } from '@/views/user/schema/user.schema';
-    import { Edit, Plus } from '@element-plus/icons-vue';
-    import { UrsaForm, UrsaSearch, UrsaTable } from 'ursacomponents';
+    import { Edit, Plus, View } from '@element-plus/icons-vue';
+    import { ProcessView, UrsaForm, UrsaSearch, UrsaTable } from 'ursacomponents';
     import { ref } from 'vue';
 
     const ursaTableRef = ref(null)
@@ -110,6 +114,11 @@
             path: '/user/edit',
             query: { id: String(id) }
         })
+    }
+
+    const processVisible = ref(false)
+    const openProcess = () => {
+        processVisible.value = true
     }
 
 
