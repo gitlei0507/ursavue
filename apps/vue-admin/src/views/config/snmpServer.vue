@@ -7,8 +7,9 @@
         <UrsaTable ref="ursaTableRef" :listFun="list" :searchForm="searchForm" :columnFields="columnFields"
             :defaultSort="{ prop: 'serverip', order: 'ascending' }" :showActionColumn="false">
             <template #toolbar>
+                <el-button type="success" @click="openViewDialog" :icon="View">查看</el-button>
                 <el-button type="primary" @click="openAddDialog" :icon="Plus">新增</el-button>
-                <el-button type="warning" @click="openEditDialog(scope.row)" :icon="Edit">
+                <el-button type="warning" @click="openEditDialog()" :icon="Edit">
                     编辑
                 </el-button>
                 <el-button type="danger" @click="handleDelete(scope.$index, scope.row, {
@@ -38,7 +39,7 @@
     import { createSnmpServer, deleteSnmpServer, list, updateSnmpServer } from '@/api/snmpServer';
     import { useSnmpServer } from '@/views/config/composables/useSnmpServer';
     import { createSnmpServerCrudConfig } from '@/views/config/schema/snmpserver.schema';
-    import { Delete, Edit, Plus } from '@element-plus/icons-vue';
+    import { Delete, Edit, Plus, View } from '@element-plus/icons-vue';
 
     const ver = [
         { label: 'v2c', value: 'v2c' },
@@ -78,12 +79,12 @@
     // 查询
     const handleSearch = () => ursaTableRef.value?.handleSearch()
 
-
-
     const {
         dialogVisible,
         submitLoading,
+        openViewDialog,
         openAddDialog,
+        openEditDialog,
         isEdit,
         isView,
         rules,
@@ -94,7 +95,10 @@
                 deleteSnmpServer
             },
             onSearch: handleSearch,
-            form: snmpServerForm
+            form: snmpServerForm,
+            option: {
+                ursaTableRef
+            }
         })
 
 </script>

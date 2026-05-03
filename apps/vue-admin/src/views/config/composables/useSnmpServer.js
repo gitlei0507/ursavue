@@ -3,7 +3,7 @@ import { nextTick, ref, watch } from "vue"
 
 
 
-export function useSnmpServer({ api, onSearch, form = {} }) {
+export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
     const dialogVisible = ref(false)
     const submitLoading = ref(false)
     const snmpServerFormRef = ref()
@@ -31,9 +31,26 @@ export function useSnmpServer({ api, onSearch, form = {} }) {
         nextTick(() => snmpServerFormRef.value?.clearValidate?.())
     }
 
+    // 新增
     const openAddDialog = () => openDialog(false, false)
-    const openEditDialog = (row) => openDialog(true, false, row)
-    const openViewDialog = (row) => openDialog(false, true, row)
+
+    // 查看
+    const openViewDialog = () => {
+        const ursaTableRef = option.ursaTableRef
+        if (!ursaTableRef.value.isSingleSelect()) return
+        const row = ursaTableRef.value.selectedRows[0]
+        openDialog(false, true, row)
+    }
+
+    // 修改
+    const openEditDialog = () => {
+        const ursaTableRef = option.ursaTableRef
+        if (!ursaTableRef.value.isSingleSelect()) return
+        const row = ursaTableRef.value.selectedRows[0]
+        openDialog(true, false, row)
+    }
+
+    // 删除
 
     watch(
         () => form.ver,
