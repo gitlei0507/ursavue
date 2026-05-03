@@ -1,4 +1,5 @@
 ﻿import { resetForm, setFormData } from '@/utils/form/formData'
+import { createRules } from '@/utils/form/formRules'
 import { ElMessage } from 'element-plus'
 import { nextTick, ref, watch } from 'vue'
 
@@ -13,7 +14,48 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
 
 
     // 表单校验
-    const rules = {}
+    const rules = createRules({
+        ver: { required: true, message: '请选择版本' },
+        servername: { required: true, message: '请输入服务器名称' },
+        serverip: { required: true, message: '请输入服务器IP' },
+        port: { required: true, message: '请输入端口' },
+        username: {
+            validator: (rule, value, callback) => {
+                if (form.ver === 'v3' && value === '') {
+                    callback(new Error('请输入v3安全用户名'))
+                    return
+                }
+                callback()
+            },
+        },
+        certpwd: {
+            validator: (rule, value, callback) => {
+                if (form.certmethod !== '99' && value === '') {
+                    callback(new Error('请输入认证密码'))
+                    return
+                }
+                callback()
+            }
+        },
+        encryptpwd: {
+            validator: (rule, value, callback) => {
+                if (form.encryptmethod !== '99' && value === '') {
+                    callback(new Error('请输入加密密码'))
+                    return
+                }
+                callback()
+            },
+        },
+        community: {
+            validator: (rule, value, callback) => {
+                if (form.ver === 'v2c' && value === '') {
+                    callback(new Error('请输入v2c团体名'))
+                    return
+                }
+                callback()
+            },
+        },
+    })
 
     // 统一处理打开弹窗
     const openDialog = (edit, view, row) => {
@@ -60,8 +102,8 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
     const submitForm = async () => {
         if (!snmpServerFormRef.value) return
 
-        //const valid = await snmpServerFormRef.value.validate().catch(() => false)
-        //if (!valid) return
+        const valid = await snmpServerFormRef.value.validate().catch(() => false)
+        if (!valid) return
 
         submitLoading.value = true
         const action = isEdit.value ? '修改' : '新增'
