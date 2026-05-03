@@ -74,7 +74,7 @@
     ]
 
     // 统一生成查询/表格/表单配置
-    const { searchForm, userForm, searchFields, columnFields, formFields } = createUserCrudConfig({
+    const { searchForm, form: userForm, searchFields, columnFields, formFields } = createUserCrudConfig({
         roles,
         roleTagMap,
         terminalSelTree

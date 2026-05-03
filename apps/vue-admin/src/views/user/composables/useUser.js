@@ -95,7 +95,6 @@ export function useUser({ api, onSearch, form }) {
     return {
         dialogVisible,
         submitLoading,
-        userForm: form,
         userFormRef,
         isEdit,
         isView,

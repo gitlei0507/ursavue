@@ -3,10 +3,10 @@
         :destroy-on-close="destroyOnClose" :draggable="draggable" @open="emit('open')" @closed="emit('closed')">
         <el-form ref="formRef" :model="model" :rules="rules" :label-width="labelWidth" class="ursa-form">
             <template v-for="field in fields" :key="field.prop || field.label">
-                <el-form-item v-if="!field.hidden" :label="field.label" :prop="field.prop">
+                <el-form-item v-if="!field.hidden" :label="field.label" :prop="field.prop" :label-width="labelWidth">
                     <!-- 单行输入框 -->
-                    <UrsaInput v-if="field.type === 'input' || field.type === 'password'" :model="model" :field="field"
-                        :readonly="readonly" />
+                    <UrsaInput v-if="['input', 'password', 'textarea'].includes(field.type)" :model="model"
+                        :field="field" :readonly="readonly" />
 
                     <!-- 下拉框 -->
                     <UrsaSelect v-else-if="field.type === 'select'" :model="model" :field="field" :readonly="readonly"
@@ -69,7 +69,7 @@
         // 表单标签宽度
         labelWidth: {
             type: String,
-            default: '90px'
+            default: '120px'
         },
         // 表单数据模型对象
         model: {

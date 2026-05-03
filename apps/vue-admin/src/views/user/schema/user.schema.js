@@ -1,7 +1,7 @@
 import { createCrudConfig } from '@/utils/crud/schema'
 
 // 描述 search/table/form 的字段与模型
-export const userSchema = {
+const userSchema = {
     search: {
         model: {
             username: '',

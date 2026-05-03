@@ -28,16 +28,16 @@ function cloneField(field, dicts) {
 export function createCrudConfig(schema, dicts = {}) {
     // 基于 schema 生成响应式模型与字段配置
     const searchForm = reactive({ ...(schema.search?.model || {}) })
-    const userForm = reactive({ ...(schema.form?.model || {}) })
+    const form = reactive({ ...(schema.form?.model || {}) })
     const searchFields = reactive((schema.search?.fields || []).map((field) => cloneField(field, dicts)))
     const columnFields = (schema.table?.columns || []).map((field) => cloneField(field, dicts))
     const formFields = reactive((schema.form?.fields || []).map((field) => cloneField(field, dicts)))
 
     return {
         searchForm,
-        userForm,
         searchFields,
         columnFields,
+        form,
         formFields
     }
 }
