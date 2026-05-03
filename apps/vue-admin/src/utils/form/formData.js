@@ -1,3 +1,5 @@
+import { UrsaMessageBox } from 'ursacomponents'
+
 
 // 表单赋值
 export const setFormData = (data = {}, form) => {
@@ -79,4 +81,39 @@ export function useSubmit({ api, formRef, formModel, isEdit, dialogVisible, onSu
         submitForm,
         submitLoading
     }
+}
+
+/**
+ * 通用删除逻辑
+ * @param {Object}   options
+ * @param {Function} options.api.delete  - 删除接口函数 (row) => Promise
+ * @param {Function} options.onSuccess   - 删除成功后回调（例如刷新列表）
+ * @param {String}   options.entityName  - 实体名称，用于提示信息
+ * @param {Function} options.getMessage  - 可自定义确认消息 (row) => string
+ * @returns {Function} handleDelete(row) - 返回删除处理函数
+ */
+export function useDelete({ api, onSuccess, entityName = '数据' } = {}) {
+    const createHandleDelete = async (row) => {
+        const message = `你确定要删除${entityName}吗？`
+
+        const confirmed = await UrsaMessageBox({ message })
+        if (!confirmed) return
+
+        try {
+            const res = await api.delete(row)
+
+            // 根据实际后端返回值调整成功判断
+            if (res === 1 || res?.code === 200 || res?.success) {
+                ElMessage.success(`${entityName}删除成功`)
+                onSuccess?.()
+            } else {
+                const msg = res?.message || `${entityName}删除失败`
+                ElMessage.error(msg)
+            }
+        } catch (error) {
+            ElMessage.error(`${entityName}删除失败：${error.message || error}`)
+        }
+    }
+
+    return { createHandleDelete }
 }

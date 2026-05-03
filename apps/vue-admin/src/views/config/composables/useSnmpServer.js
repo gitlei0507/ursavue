@@ -1,4 +1,5 @@
-﻿import { resetForm, setFormData, useSubmit } from '@/utils/form/formData'
+﻿import { deleteSnmpServer } from '@/api/snmpServer'
+import { resetForm, setFormData, useDelete, useSubmit } from '@/utils/form/formData'
 import { createRules } from '@/utils/form/formRules'
 import { nextTick, ref, watch } from 'vue'
 
@@ -94,6 +95,18 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
     }
 
     // 删除
+    const { createHandleDelete } = useDelete({
+        api: { delete: deleteSnmpServer },
+        onSuccess: onSearch,
+        entityName: 'SNMP配置'
+    })
+
+    const handleDelete = () => {
+        const ursaTableRef = option.ursaTableRef
+        if (!ursaTableRef.value.isSingleSelect()) return
+        const row = ursaTableRef.value.selectedRows[0]
+        createHandleDelete(row)
+    }
 
 
     // 提交表单
@@ -107,6 +120,7 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
         entityName: 'SNMP服务器'
     })
 
+    // 版本切换时，清空表单元素
     watch(
         () => form.ver,
         (newValue) => {
@@ -133,6 +147,7 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
         openAddDialog,
         openEditDialog,
         openViewDialog,
+        handleDelete,
         submitForm,
         rules
     }
