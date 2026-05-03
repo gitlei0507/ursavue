@@ -1,13 +1,11 @@
-﻿import { resetForm, setFormData } from '@/utils/form/formData'
+﻿import { resetForm, setFormData, useSubmit } from '@/utils/form/formData'
 import { createRules } from '@/utils/form/formRules'
-import { ElMessage } from 'element-plus'
 import { nextTick, ref, watch } from 'vue'
 
 
 
 export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
     const dialogVisible = ref(false)
-    const submitLoading = ref(false)
     const snmpServerFormRef = ref(null)
     const isEdit = ref(false)
     const isView = ref(false)
@@ -99,30 +97,15 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
 
 
     // 提交表单
-    const submitForm = async () => {
-        if (!snmpServerFormRef.value) return
-
-        const valid = await snmpServerFormRef.value.validate().catch(() => false)
-        if (!valid) return
-
-        submitLoading.value = true
-        const action = isEdit.value ? '修改' : '新增'
-        try {
-            const apiFn = isEdit.value ? api.updateSnmpServer : api.createSnmpServer
-            const res = await apiFn(form)
-            if (res == 1) {
-                ElMessage.success(`${action}SNMP服务器成功`)
-                dialogVisible.value = false
-                onSearch()
-            } else {
-                ElMessage.error(`${action}SNMP服务器失败`)
-            }
-        } catch (error) {
-            ElMessage.error(`${action}SNMP服务器失败：${error.message || error}`)
-        } finally {
-            submitLoading.value = false
-        }
-    }
+    const { submitForm, submitLoading } = useSubmit({
+        api,
+        formRef: snmpServerFormRef,
+        formModel: form,
+        isEdit,
+        dialogVisible,
+        onSuccess: onSearch,
+        entityName: 'SNMP服务器'
+    })
 
     watch(
         () => form.ver,

@@ -91,8 +91,8 @@
         rules,
         submitForm } = useSnmpServer({
             api: {
-                createSnmpServer,
-                updateSnmpServer,
+                create: createSnmpServer,
+                update: updateSnmpServer,
                 deleteSnmpServer
             },
             onSearch: handleSearch,
