@@ -92,8 +92,8 @@ export function useSubmit({ api, formRef, formModel, isEdit, dialogVisible, onSu
  * @param {Function} options.getMessage  - 可自定义确认消息 (row) => string
  * @returns {Function} handleDelete(row) - 返回删除处理函数
  */
-export function useDelete({ api, onSuccess, entityName = '数据' } = {}) {
-    const createHandleDelete = async (row) => {
+export function useDelete({ api, row, onSuccess, entityName = '数据' } = {}) {
+    const doDelete = async (row) => {
         const message = `你确定要删除${entityName}吗？`
 
         const confirmed = await UrsaMessageBox({ message })
@@ -115,5 +115,5 @@ export function useDelete({ api, onSuccess, entityName = '数据' } = {}) {
         }
     }
 
-    return { createHandleDelete }
+    doDelete(row)
 }

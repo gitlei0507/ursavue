@@ -95,17 +95,16 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
     }
 
     // 删除
-    const { createHandleDelete } = useDelete({
-        api: { delete: deleteSnmpServer },
-        onSuccess: onSearch,
-        entityName: 'SNMP配置'
-    })
-
     const handleDelete = () => {
         const ursaTableRef = option.ursaTableRef
         if (!ursaTableRef.value.isSingleSelect()) return
         const row = ursaTableRef.value.selectedRows[0]
-        createHandleDelete(row)
+        useDelete({
+            api: { delete: deleteSnmpServer },
+            row,
+            onSuccess: onSearch,
+            entityName: 'SNMP配置'
+        })
     }
 
 
