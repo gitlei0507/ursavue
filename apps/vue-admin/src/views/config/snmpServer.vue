@@ -5,7 +5,8 @@
 
         <!-- 列表区域 -->
         <UrsaTable ref="ursaTableRef" :listFun="list" :searchForm="searchForm" :columnFields="columnFields"
-            :defaultSort="{ prop: 'serverip', order: 'ascending' }" :showActionColumn="false">
+            :defaultSort="{ prop: 'serverip', order: 'ascending' }" :showActionColumn="false"
+            @linkClick="handleLinkClick">
             <template #toolbar>
                 <el-button type="success" @click="openViewDialog" :icon="View">查看</el-button>
                 <el-button type="primary" @click="openAddDialog" :icon="Plus">新增</el-button>
@@ -78,6 +79,7 @@
         openViewDialog,
         openAddDialog,
         openEditDialog,
+        handleLinkClick,
         handleDelete,
         isEdit,
         isView,

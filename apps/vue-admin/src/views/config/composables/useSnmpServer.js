@@ -119,6 +119,11 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
         entityName: 'SNMP服务器'
     })
 
+    // 点击链接
+    const handleLinkClick = (row) => {
+        openDialog(false, true, row)
+    }
+
     // 版本切换时，清空表单元素
     watch(
         () => form.ver,
@@ -146,6 +151,7 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
         openAddDialog,
         openEditDialog,
         openViewDialog,
+        handleLinkClick,
         handleDelete,
         submitForm,
         rules

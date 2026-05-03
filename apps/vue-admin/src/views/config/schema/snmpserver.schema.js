@@ -39,7 +39,8 @@ const snmpServerSchema = {
                 prop: 'serverip',
                 label: '服务器IP',
                 minWidth: '200',
-                valueAlign: 'left'
+                valueAlign: 'left',
+                hasLink: true
             },
             {
                 prop: 'servername',

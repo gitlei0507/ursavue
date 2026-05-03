@@ -39,6 +39,11 @@
                                 <span v-else>{{ formatCellText(column, scope.row, scope.$index) }}</span>
                             </template>
 
+                            <template v-else-if="hasLink(column)">
+                                <el-link type="primary" underline="never" @click="handleClickLink(scope.row)">{{
+                                    formatCellText(column, scope.row, scope.$index) }}</el-link>
+                            </template>
+
                             <span v-else>{{ formatCellText(column, scope.row, scope.$index) }}</span>
                         </template>
                     </el-table-column>
@@ -188,6 +193,7 @@
         'view',
         'edit',
         'delete',
+        'linkClick'
     ])
 
     const slots = useSlots()
@@ -264,6 +270,10 @@
         return typeof column?.tagMap === 'function' || typeof column?.tagMap === 'object'
     }
 
+    const hasLink = (column) => {
+        return column?.hasLink ? true : false
+    }
+
     const normalizeTagConfig = (rawConfig, fallbackLabel) => {
         if (!rawConfig) {
             return null
@@ -329,6 +339,10 @@
         }
 
         emit(button.event ?? button.key ?? 'action', payload)
+    }
+
+    function handleClickLink(row) {
+        emit('linkClick', row)
     }
 
     // 对外暴露方法
