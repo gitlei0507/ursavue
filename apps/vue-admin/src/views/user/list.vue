@@ -22,11 +22,13 @@
         @submit="submitForm" />
 
 
-    <ProcessView v-model="processVisible"></ProcessView>
+    <!-- 查看流程图组件 -->
+    <ProcessView v-model="processVisible" :xml="xml"></ProcessView>
 
 </template>
 
 <script setup>
+    import { getXml } from '@/api/process';
     import { createUser, deleteUser, listUser, updateUser } from '@/api/user';
     import router from '@/router';
     import { createDynamicRoute } from '@/router/dynamic-routes';
@@ -117,7 +119,11 @@
     }
 
     const processVisible = ref(false)
-    const openProcess = () => {
+    const xml = ref()
+    const openProcess = async () => {
+        const resp = await getXml()
+        xml.value = resp
+
         processVisible.value = true
     }
 
