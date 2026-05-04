@@ -14,12 +14,18 @@
 </template>
 
 <script setup>
+    const emit = defineEmits(['command'])
+
     const props = defineProps({
         btnName: {
             type: String,
             default: '更多操作'
         }
     })
+
+    const handleMoreActionCommand = (command) => {
+        emit('command', command)
+    }
 </script>
 
 <style scoped>

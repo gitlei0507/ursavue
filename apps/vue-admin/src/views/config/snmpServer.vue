@@ -12,7 +12,7 @@
                 <el-button type="primary" @click="openAddDialog" :icon="Plus">新增</el-button>
                 <el-button type="warning" @click="openEditDialog()" :icon="Edit">编辑</el-button>
                 <el-button type="danger" @click="handleDelete()" :icon="Delete">删除</el-button>
-                <UrsaDropdown>
+                <UrsaDropdown @command="handleCommand">
                     <el-dropdown-menu>
                         <el-dropdown-item command="enable">启用</el-dropdown-item>
                         <el-dropdown-item command="disable">停用</el-dropdown-item>
@@ -81,6 +81,7 @@
         openEditDialog,
         handleLinkClick,
         handleDelete,
+        handleCommand,
         isEdit,
         isView,
         rules,

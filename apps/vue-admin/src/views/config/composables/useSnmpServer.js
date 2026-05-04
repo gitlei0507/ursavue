@@ -124,6 +124,18 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
         openDialog(false, true, row)
     }
 
+    // 更多操作点击
+    const handleCommand = (command) => {
+        switch (command) {
+            case 'enable':
+                console.log('执行启用');
+                break
+            case 'disable':
+                console.log('执行停用');
+                break
+        }
+    }
+
     // 版本切换时，清空表单元素
     watch(
         () => form.ver,
@@ -142,6 +154,7 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
 
 
 
+
     return {
         dialogVisible,
         submitLoading,
@@ -153,6 +166,7 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
         openViewDialog,
         handleLinkClick,
         handleDelete,
+        handleCommand,
         submitForm,
         rules
     }
