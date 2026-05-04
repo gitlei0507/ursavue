@@ -38,13 +38,6 @@
         width: 100px;
     }
 
-    .more-action-dropdown .el-button--info {
-        --el-button-border-color: #909399;
-        --el-button-hover-bg-color: #7f8288;
-        --el-button-hover-border-color: #7f8288;
-        --el-button-active-bg-color: #6f7278;
-        --el-button-active-border-color: #6f7278;
-    }
 
     :global(.more-action-dropdown-menu .el-dropdown-menu) {
         width: 100px;
