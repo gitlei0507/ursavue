@@ -56,13 +56,36 @@ export const setupUrsaRouterGuard = (router, options = {}) => {
 
         const userStore = typeof getUserStore === 'function' ? getUserStore() : null
 
+        const alreadyLoaded = hasLoadedRoutes(userStore)
+
         // 判断是否需要加载动态路由：可由外部自定义，也可走默认判定。
+        // 注意：to.matched.length === 0 仅在「尚未加载」时才触发重新注册。
+        // 若已完成一次加载但路由仍为空（组件路径配置错误导致注册失败），
+        // 不能再次进入加载流程，否则会因无限 next({ replace: true }) 陷入死循环。
         const needLoadRoutes = typeof shouldLoadRoutes === 'function'
             ? shouldLoadRoutes({ to, from, router, userStore })
-            : !hasLoadedRoutes(userStore) || to.matched.length === 0 || (to.name ? !router.hasRoute(to.name) : false)
+            : !alreadyLoaded || (to.name ? !router.hasRoute(to.name) : false)
 
         if (debug) {
-            console.log('[admin-router] needLoadRoutes:', needLoadRoutes)
+            console.log('[admin-router] needLoadRoutes:', needLoadRoutes, 'alreadyLoaded:', alreadyLoaded)
+        }
+
+        // 已完成加载但目标路由仍不存在（组件配置错误 / 越权访问）
+        // 此时直接兜底跳转，避免死循环。
+        if (alreadyLoaded && to.matched.length === 0) {
+            if (debug) {
+                console.warn('[admin-router] 路由注册失败或无权访问，跳转兜底路径:', to.path)
+            }
+            const { notFoundPath = '/', onRouteNotFound } = options
+            if (typeof onRouteNotFound === 'function') {
+                const fallback = onRouteNotFound({ to, from, router, userStore })
+                if (fallback) {
+                    next(fallback)
+                    return
+                }
+            }
+            next(notFoundPath)
+            return
         }
 
         if (!needLoadRoutes) {
