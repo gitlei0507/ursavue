@@ -60,8 +60,10 @@ export function useSnmpServer({ api, onSearch, form = {}, option = {} }) {
     const openDialog = (edit, view, row) => {
         resetForm(form)
         // 设置默认值
-        form.ver = 'v3'
-        form.port = '161'
+        // form.ver = 'v3'
+        // form.port = '161'
+
+        Object.assign(form, option?.defaults)
 
         if (row) {
             // 表单赋值

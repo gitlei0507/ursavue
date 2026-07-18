@@ -94,7 +94,8 @@
             onSearch: handleSearch,
             form: snmpServerForm,
             option: {
-                ursaTableRef
+                ursaTableRef,
+                defaults: { ver: 'v3', port: '162' }
             }
         })
 
