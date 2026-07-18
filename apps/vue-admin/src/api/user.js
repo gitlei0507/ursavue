@@ -9,7 +9,7 @@ export function listUser(data) {
     })
 }
 
-// 登录测试
+// 登录
 export function login(data) {
     return request({
         url: '/user/login',
